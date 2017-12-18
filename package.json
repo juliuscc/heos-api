@@ -1,0 +1,10 @@
+{
+	"name": "heos-api",
+	"version": "0.1.0",
+	"description": "An API wrapper for the Heos CLI API for Node.js",
+	"main": "index.js",
+	"repository": "https://github.com/JuliusCC/heos-api",
+	"author": "Julius Colliander Celik",
+	"license": "MIT",
+	"private": false
+}
