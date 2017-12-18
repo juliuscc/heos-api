@@ -1,6 +1,6 @@
 {
 	"name": "heos-api",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "An API wrapper for the Heos CLI API for Node.js",
 	"main": "index.js",
 	"repository": {
