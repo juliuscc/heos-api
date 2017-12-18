@@ -13,7 +13,8 @@
 	"scripts": {
 		"precommit": "lint-staged",
 		"test": "jest",
-		"test-watch": "jest test --watch"
+		"test-watch": "jest test --watch",
+		"postversion": "git push --tags && git push && npm publish"
 	},
 	"dependencies": {
 		"node-ssdp": "^3.2.5"
