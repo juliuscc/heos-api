@@ -3,8 +3,28 @@
 	"version": "0.1.0",
 	"description": "An API wrapper for the Heos CLI API for Node.js",
 	"main": "index.js",
-	"repository": "https://github.com/JuliusCC/heos-api",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JuliusCC/heos-api"
+	},
 	"author": "Julius Colliander Celik",
 	"license": "MIT",
-	"private": false
+	"private": false,
+	"scripts": {
+		"precommit": "lint-staged",
+		"test": "echo \"No tests specified\""
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"gh-pages": "^1.1.0",
+		"husky": "^0.14.3",
+		"lint-staged": "^4.3.0",
+		"prettier": "^1.9.0"
+	},
+	"lint-staged": {
+		"**/*.{js,jsx,json,css}": [
+			"prettier --single-quote --use-tabs --no-semi --write",
+			"git add"
+		]
+	}
 }
