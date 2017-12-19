@@ -1,14 +1,14 @@
+// Hack to keep process alive
+setInterval(() => {}, 1000000000)
+// Hack end
+
 const util = require('util')
 
 const api = require('./index')
-const commands = require('./lib/commands')
 
-api.getConnection().then(connection => api.commands.heart_beat(connection))
-// .then(connection =>
-// 	console.log(
-// 		`This is the connection: ${util.inspect(connection, false, null)}`
-// 	)
-// )
-
-// Hack to keep process alive
-setInterval(() => {}, 1000000000)
+api.getConnection().then(connection => {
+	// connection.events = ['test1', 'test2']
+	// console.log(connection.events)
+	api.commands.prettify_json_response(connection, 'on')
+	api.commands.register_for_change_events(connection, true)
+})
