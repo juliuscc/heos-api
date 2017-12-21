@@ -56,20 +56,46 @@ describe('Event handler works', () => {
 		function test1() {}
 		function test2() {}
 		function test3() {}
+		function test4() {}
 
 		it('Removes an event from an object with one event', () => {
 			const connection = {}
-			bindEvent(connection, 'hello', test1)
-			unbindEvent(connection, 'hello', test1)
-			expect(connection).toEqual({ events: {} })
+			bindEvent(connection, 'data', test1)
+			unbindEvent(connection, 'data', test1)
+			expect(connection).toEqual({ events: { data: [] } })
 		})
 
-		// it('Removes only the specified event', () => {
-		// 	const connection = { events: [test1, test2] }
-		// 	unbindEvent(connection, undefined, test1)
-		// 	expect(connection).toEqual({ events: [test2] })
-		// })
-		it('Removes multiple events if only one event is specified')
+		it('Removes only the specified event', () => {
+			const connection1 = { events: { data: [test1, test2] } }
+			unbindEvent(connection1, 'data', test1)
+			expect(connection1).toEqual({ events: { data: [test2] } })
+
+			const connection2 = { events: { data: [test1, test2] } }
+			unbindEvent(connection2, 'data', test2)
+			expect(connection2).toEqual({ events: { data: [test1] } })
+
+			const connection3 = {
+				events: { data: [test1, test2], volume_up: [test3, test4] }
+			}
+			unbindEvent(connection3, 'data', test2)
+			expect(connection3).toEqual({
+				events: { data: [test1], volume_up: [test3, test4] }
+			})
+		})
+
+		it('Removes multiple events if only one event is specified', () => {
+			const connection = {
+				events: { data: [test1, test2], volume_up: [test3, test4] }
+			}
+			unbindEvent(connection, 'data')
+
+			expect(connection).toHaveProperty('events')
+			expect(connection).toHaveProperty('events.volume_up')
+			expect(connection).toHaveProperty('events.data')
+
+			expect(connection.events.data).toEqual([])
+			expect(connection.events.volume_up).toEqual([test3, test4])
+		})
 	})
 
 	describe('Use callback works', () => {})
