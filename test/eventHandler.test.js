@@ -1,4 +1,10 @@
-const { bindEvent, bindResponse, unbindEvent } = require('../lib/eventHandler')
+const {
+	bindEvent,
+	bindResponse,
+	unbindEvent,
+	triggerEvent,
+	useOneResponse
+} = require('../lib/eventHandler')
 
 describe('Event handler works', () => {
 	describe('Bind callbacks works', () => {
@@ -98,7 +104,171 @@ describe('Event handler works', () => {
 		})
 	})
 
-	describe('Use callback works', () => {})
+	describe('Trigger callbacks works', () => {
+		it('Triggers a callback if it is the only one', () => {
+			const mockCallback = jest.fn()
+			const connection = {
+				events: { data: [mockCallback] }
+			}
 
-	describe('Trigger callbacks works', () => {})
+			triggerEvent(connection, 'data')
+			expect(mockCallback).toHaveBeenCalled()
+		})
+
+		it('Does nothing if the event has no callbacks, and does not break', () => {
+			const mockCallback = jest.fn()
+			const connection = {
+				events: { data: [mockCallback] }
+			}
+
+			triggerEvent(connection, 'volume_up')
+			expect(mockCallback).not.toHaveBeenCalled()
+		})
+
+		it('Only triggers the specified event', () => {
+			const mockCallbacks = [jest.fn(), jest.fn()]
+			const connection = {
+				events: { data: [mockCallbacks[0]], volume_up: [mockCallbacks[1]] }
+			}
+
+			triggerEvent(connection, 'data')
+			expect(mockCallbacks[0]).toHaveBeenCalled()
+			expect(mockCallbacks[1]).not.toHaveBeenCalled()
+		})
+
+		it('Triggers the callback with correct data', () => {
+			const mockData = { message: 'Hello world!' }
+			const connection = {}
+			const mockCallback = jest.fn()
+
+			bindEvent(connection, 'heart_beat', mockCallback)
+			triggerEvent(connection, 'heart_beat', mockData)
+
+			expect(mockCallback).toHaveBeenCalledWith(mockData)
+		})
+
+		it('Triggers all callbacks for an event once and only once', () => {
+			const mockCallbacks = [jest.fn(), jest.fn(), jest.fn()]
+			const connection = {
+				events: {
+					data: [mockCallbacks[0], mockCallbacks[2], mockCallbacks[0]],
+					volume_up: [mockCallbacks[1]]
+				}
+			}
+
+			triggerEvent(connection, 'data')
+			expect(mockCallbacks[0]).toHaveBeenCalled()
+			expect(mockCallbacks[1]).not.toHaveBeenCalled()
+			expect(mockCallbacks[2]).toHaveBeenCalled()
+
+			expect(mockCallbacks[0]).toHaveBeenCalledTimes(1)
+			expect(mockCallbacks[1]).toHaveBeenCalledTimes(0)
+			expect(mockCallbacks[2]).toHaveBeenCalledTimes(1)
+		})
+
+		it('Triggers all callbacks in the correct order', () => {
+			const called = Array(5).fill(false)
+
+			const mockCallbacks = [
+				jest.fn(() => {
+					called[0] = true
+					expect(called[2]).not.toBe(true)
+				}),
+				jest.fn(() => {
+					expect(called[0]).toBe(true)
+					called[1] = true
+				}),
+				jest.fn(() => {
+					expect(called[1]).toBe(true)
+					called[2] = true
+				}),
+				jest.fn(() => {
+					expect(called[2]).toBe(true)
+					called[3] = true
+				}),
+				jest.fn()
+			]
+			const connection = {}
+
+			bindEvent(connection, 'data', mockCallbacks[0])
+			bindEvent(connection, 'data', mockCallbacks[1])
+			bindEvent(connection, 'volume_up', mockCallbacks[1])
+			bindEvent(connection, 'data', mockCallbacks[2])
+			bindEvent(connection, 'data', mockCallbacks[0])
+			bindEvent(connection, 'data', mockCallbacks[3])
+			bindEvent(connection, 'volume_up', mockCallbacks[4])
+
+			triggerEvent(connection, 'data')
+		})
+	})
+
+	describe('Use one response works', () => {
+		it('Triggers a callback if it is the only one', () => {
+			const connection = {}
+			const mockCallback = jest.fn()
+			bindResponse(connection, 'heart_beat', mockCallback)
+
+			useOneResponse(connection, 'heart_beat')
+
+			expect(mockCallback).toHaveBeenCalled()
+		})
+
+		it('Only triggers the first response', () => {
+			const connection = {}
+			const mockCallbacks = [jest.fn(), jest.fn(), jest.fn()]
+
+			bindResponse(connection, 'volume_up', mockCallbacks[0])
+			bindResponse(connection, 'heart_beat', mockCallbacks[1])
+			bindResponse(connection, 'volume_up', mockCallbacks[2])
+
+			useOneResponse(connection, 'heart_beat')
+
+			expect(mockCallbacks[0]).not.toHaveBeenCalled()
+			expect(mockCallbacks[1]).toHaveBeenCalled()
+			expect(mockCallbacks[1]).toHaveBeenCalledTimes(1)
+			expect(mockCallbacks[2]).not.toHaveBeenCalled()
+		})
+
+		it('Removes a callback after using it', () => {
+			const connection = {}
+			const mockCallbacks = [jest.fn(), jest.fn()]
+
+			bindResponse(connection, 'heart_beat', mockCallbacks[0])
+			bindResponse(connection, 'heart_beat', mockCallbacks[1])
+
+			useOneResponse(connection, 'heart_beat')
+
+			expect(mockCallbacks[0]).toHaveBeenCalled()
+			expect(mockCallbacks[1]).not.toHaveBeenCalled()
+
+			expect(connection).toEqual({
+				responses: { heart_beat: [mockCallbacks[1]] }
+			})
+		})
+
+		it('Triggers the callback with correct data', () => {
+			const mockData = { message: 'Hello world!' }
+			const connection = {}
+			const mockCallback = jest.fn()
+
+			bindResponse(connection, 'heart_beat', mockCallback)
+			useOneResponse(connection, 'heart_beat', mockData)
+
+			expect(mockCallback).toHaveBeenCalledWith(mockData)
+		})
+
+		it('Throws an error if the response has no callbacks', () => {
+			let connection = {}
+			expect(() => useOneResponse(connection, 'heart_beat')).toThrowError(
+				'Unexpected response received'
+			)
+
+			connection = {}
+			bindResponse(connection, 'heart_beat', () => {})
+			useOneResponse(connection, 'heart_beat')
+			expect(() => useOneResponse(connection, 'heart_beat')).toThrowError(
+				'Unexpected response received'
+			)
+		})
+	})
 })
