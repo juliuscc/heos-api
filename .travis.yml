@@ -12,5 +12,5 @@ cache:
   directories:
   - node_modules
 script: 
-  - npm test:codecov
   - npm install
+  - npm test:codecov
