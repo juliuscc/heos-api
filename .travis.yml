@@ -13,4 +13,4 @@ cache:
   - node_modules
 script: 
   - npm install
-  - npm test:codecov
+  - npm run test:codecov
