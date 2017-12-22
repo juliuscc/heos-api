@@ -13,13 +13,16 @@
 	"scripts": {
 		"precommit": "lint-staged",
 		"test": "jest",
-		"test-watch": "jest test --watch",
+		"test:watch": "jest test --watch",
+		"test:codecov":
+			"jest && codecov --file coverage/lcov.info --disable search",
 		"postversion": "git push --tags && git push && npm publish"
 	},
 	"dependencies": {
 		"node-ssdp": "^3.2.5"
 	},
 	"devDependencies": {
+		"codecov": "^3.0.0",
 		"gh-pages": "^1.1.0",
 		"husky": "^0.14.3",
 		"jest": "^22.0.0",
