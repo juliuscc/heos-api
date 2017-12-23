@@ -12,7 +12,7 @@
 	"private": false,
 	"scripts": {
 		"precommit": "lint-staged",
-		"test": "jest",
+		"test": "jest test/*",
 		"test:watch": "jest test --watch",
 		"test:codecov":
 			"jest && codecov --file coverage/lcov.info --disable search",
