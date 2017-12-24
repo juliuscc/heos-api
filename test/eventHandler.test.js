@@ -3,7 +3,7 @@ const {
 	bindResponse,
 	unbindEvent,
 	triggerEvent,
-	useOneResponse
+	resolveOneResponse
 } = require('../lib/eventHandler')
 
 describe('Event handler works', () => {
@@ -202,13 +202,13 @@ describe('Event handler works', () => {
 		})
 	})
 
-	describe('Use one response works', () => {
+	describe('Resolve and reject one response works', () => {
 		it('Triggers a callback if it is the only one', () => {
 			const connection = {}
 			const mockCallback = jest.fn()
 			bindResponse(connection, 'heart_beat', mockCallback)
 
-			useOneResponse(connection, 'heart_beat')
+			resolveOneResponse(connection, 'heart_beat')
 
 			expect(mockCallback).toHaveBeenCalled()
 		})
@@ -221,7 +221,7 @@ describe('Event handler works', () => {
 			bindResponse(connection, 'heart_beat', mockCallbacks[1])
 			bindResponse(connection, 'volume_up', mockCallbacks[2])
 
-			useOneResponse(connection, 'heart_beat')
+			resolveOneResponse(connection, 'heart_beat')
 
 			expect(mockCallbacks[0]).not.toHaveBeenCalled()
 			expect(mockCallbacks[1]).toHaveBeenCalled()
@@ -236,13 +236,15 @@ describe('Event handler works', () => {
 			bindResponse(connection, 'heart_beat', mockCallbacks[0])
 			bindResponse(connection, 'heart_beat', mockCallbacks[1])
 
-			useOneResponse(connection, 'heart_beat')
+			resolveOneResponse(connection, 'heart_beat')
 
 			expect(mockCallbacks[0]).toHaveBeenCalled()
 			expect(mockCallbacks[1]).not.toHaveBeenCalled()
 
 			expect(connection).toEqual({
-				responses: { heart_beat: [mockCallbacks[1]] }
+				responses: {
+					heart_beat: [{ resolve: mockCallbacks[1], reject: undefined }]
+				}
 			})
 		})
 
@@ -252,21 +254,21 @@ describe('Event handler works', () => {
 			const mockCallback = jest.fn()
 
 			bindResponse(connection, 'heart_beat', mockCallback)
-			useOneResponse(connection, 'heart_beat', mockData)
+			resolveOneResponse(connection, 'heart_beat', mockData)
 
 			expect(mockCallback).toHaveBeenCalledWith(mockData)
 		})
 
 		it('Throws an error if the response has no callbacks', () => {
 			let connection = {}
-			expect(() => useOneResponse(connection, 'heart_beat')).toThrowError(
+			expect(() => resolveOneResponse(connection, 'heart_beat')).toThrowError(
 				'Unexpected response received'
 			)
 
 			connection = {}
 			bindResponse(connection, 'heart_beat', () => {})
-			useOneResponse(connection, 'heart_beat')
-			expect(() => useOneResponse(connection, 'heart_beat')).toThrowError(
+			resolveOneResponse(connection, 'heart_beat')
+			expect(() => resolveOneResponse(connection, 'heart_beat')).toThrowError(
 				'Unexpected response received'
 			)
 		})
