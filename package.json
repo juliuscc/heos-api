@@ -16,7 +16,9 @@
 		"test:watch": "jest test --watch",
 		"test:codecov":
 			"jest && codecov --file coverage/lcov.info --disable search",
-		"postversion": "git push --tags && git push && npm publish"
+		"postversion": "git push --tags && git push && npm publish",
+		"prettify":
+			"prettier --single-quote --use-tabs --no-semi --write **/*.{js,jsx,json,css} !coverage/**"
 	},
 	"dependencies": {
 		"node-ssdp": "^3.2.5"
@@ -34,7 +36,7 @@
 	},
 	"lint-staged": {
 		"**/*.{js,jsx,json,css}": [
-			"prettier --single-quote --use-tabs --no-semi --write --tabWidth 4",
+			"prettier --single-quote --use-tabs --no-semi --write",
 			"git add"
 		]
 	}
