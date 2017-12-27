@@ -178,7 +178,7 @@ describe('Send command works as expected', () => {
 
 		expect.assertions(1)
 
-		return sendCommand(connection, 'test').then(() => {
+		return sendCommand(connection, undefined, 'test').then(() => {
 			expect(write).toHaveBeenCalledWith('heos://test\r\n')
 		})
 	})
