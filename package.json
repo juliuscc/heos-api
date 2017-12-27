@@ -34,7 +34,7 @@
 	},
 	"lint-staged": {
 		"**/*.{js,jsx,json,css}": [
-			"prettier --single-quote --use-tabs --no-semi --write",
+			"prettier --single-quote --use-tabs --no-semi --write --tabWidth 4",
 			"git add"
 		]
 	}

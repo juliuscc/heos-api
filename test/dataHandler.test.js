@@ -294,7 +294,9 @@ describe('Incoming data is correctly processed and handled', () => {
 		const eventData = mockTriggerEvent.mock.calls[0][2]
 
 		expect(responseData.payload).toEqual([
-			{ play: [{ id: 11, name: 'Thumbs Up' }, { id: 12, name: 'Thumbs Down' }] }
+			{
+				play: [{ id: 11, name: 'Thumbs Up' }, { id: 12, name: 'Thumbs Down' }]
+			}
 		])
 		expect(eventData.payload).toEqual(undefined)
 	})
