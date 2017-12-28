@@ -18,9 +18,7 @@ describe('Integration test: Can send correct system commands', () => {
 		const write = jest.fn()
 
 		return mockConnect(write).then(connection => {
-			commands.system.register_for_change_events(connection, {
-				enable: enums.enable.on
-			})
+			commands.system.register_for_change_events(connection, enums.enable.on)
 			expect(write).toHaveBeenCalledWith(
 				'heos://system/register_for_change_events?enable=on\r\n'
 			)
@@ -44,10 +42,7 @@ describe('Integration test: Can send correct system commands', () => {
 		const write = jest.fn()
 
 		return mockConnect(write).then(connection => {
-			commands.system.sign_in(connection, {
-				un: 'user@gmail.com',
-				pw: '12345'
-			})
+			commands.system.sign_in(connection, 'user@gmail.com', '12345')
 			expect(write).toHaveBeenCalledWith(
 				'heos://system/sign_in?un=user@gmail.com&pw=12345\r\n'
 			)
@@ -93,9 +88,7 @@ describe('Integration test: Can send correct system commands', () => {
 		const write = jest.fn()
 
 		return mockConnect(write).then(connection => {
-			commands.system.prettify_json_response(connection, {
-				enable: enums.enable.off
-			})
+			commands.system.prettify_json_response(connection, enums.enable.off)
 			expect(write).toHaveBeenCalledWith(
 				'heos://system/prettify_json_response?enable=off\r\n'
 			)
