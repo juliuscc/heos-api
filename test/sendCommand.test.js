@@ -158,6 +158,19 @@ describe('Create sender works as expected', () => {
 			expectedOutput
 		)
 	})
+
+	it('Does not include undefined parameters', () => {
+		const mockSendCommand = jest.fn()
+		const send = createSender('player', mockSendCommand)
+
+		send({}, 'get_players', { pid: undefined, gid: undefined })
+		const expectedOutput = 'player/get_players'
+		expect(mockSendCommand).toHaveBeenCalledWith(
+			expect.anything(),
+			expect.anything(),
+			expectedOutput
+		)
+	})
 })
 
 describe('Send command works as expected', () => {
