@@ -145,6 +145,19 @@ describe('Create sender works as expected', () => {
 			expectedOutput
 		)
 	})
+
+	it('Can transform an array parameter to a comma seperated list', () => {
+		const mockSendCommand = jest.fn()
+		const send = createSender('player', mockSendCommand)
+
+		send({}, 'remove_from_queue', { pid: '12', qid: [12, '4', 3, 23] })
+		const expectedOutput = 'player/remove_from_queue?pid=12&qid=12,4,3,23'
+		expect(mockSendCommand).toHaveBeenCalledWith(
+			expect.anything(),
+			expect.anything(),
+			expectedOutput
+		)
+	})
 })
 
 describe('Send command works as expected', () => {
