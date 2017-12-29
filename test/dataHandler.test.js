@@ -158,6 +158,13 @@ describe('Incoming data is correctly processed and handled', () => {
 			"command": "event/sources_changed"
 		}
 	}\r\n`
+	const mockError = `{
+		"heos": {
+			"command": "browse/set_service_option",
+			"result": "fail",
+			"message": "eid=3&text=Wrong number of command arguments&pid=12&tjohopp=hej"
+		}
+	}\r\n`
 
 	it('Triggers event or / and response when called', () => {
 		const mockTriggerEvent = jest.fn()
@@ -336,5 +343,34 @@ describe('Incoming data is correctly processed and handled', () => {
 		)
 	})
 
-	it('Can handle errors')
+	describe('Data handler can handle errors', () => {
+		it('Rejects the promise when given an error', () => {
+			const mockRejecter = jest.fn()
+			const dataHandler = createDataHandler(jest.fn(), jest.fn(), mockRejecter)
+
+			dataHandler(mockConnection, new Buffer(mockError))
+
+			expect(mockRejecter).toHaveBeenCalled()
+		})
+
+		it('Rejects the promise with the correct data when given an error', () => {
+			const mockRejecter = jest.fn()
+			const dataHandler = createDataHandler(jest.fn(), jest.fn(), mockRejecter)
+
+			dataHandler(mockConnection, new Buffer(mockError))
+
+			expect(mockRejecter).toHaveBeenCalledWith(
+				mockConnection,
+				'browse/set_service_option',
+				{
+					message: {
+						eid: '3',
+						pid: '12',
+						text: 'Wrong number of command arguments',
+						tjohopp: 'hej'
+					}
+				}
+			)
+		})
+	})
 })
