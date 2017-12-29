@@ -7,10 +7,10 @@
 
 A Node.js API wrapper for the Heos CLI API.
 
-* 💯 **All commands suported:** heos-api supports every specified Heos CLI API command, specified according to the [HEOS CLI Protocol Specification](http://rn.dmglobal.com/euheos/HEOS_CLI_ProtocolSpecification.pdf).
+* 💯 **All commands suported:** heos-api supports every specified Heos CLI API command, implemented according to the [HEOS CLI Protocol Specification](http://rn.dmglobal.com/euheos/HEOS_CLI_ProtocolSpecification.pdf).
 * 🎉 **Promise based wrappers:** Every command sent, gets coupled with the response in an easy to handle promise, saving head aches trying to figure out which response belongs to which command.
 * 🔥 **Enums and constants:** All enumerations and constants are predefined, so that you don't have to figure out how to send commands with valid parameters.
-* 🛰 **Event handling:** Bind any event to one or more callbacks, and react to anything that happens to your heos control system.
+* 🛰 **Event handling:** React to anything that happens to your heos control system, by binding any event to one or more callbacks.
 
 ## Getting started
 
