@@ -17,7 +17,12 @@ A Node.js API wrapper for the Heos CLI API.
 Install heos-api using `npm`:
 
 ```
-npm install --save-dev heos-api
+npm install --save heos-api
+```
+
+Or via `yarn`:
+```
+yarn add heos-api
 ```
 
 Let's get started with connecting to a heos control system:
@@ -61,16 +66,17 @@ const heos = require('heos-api')
 const { repeat_state, shuffle_state } = heos.constants
 
 heos.createConnection()
-  .then(connection => heos.commands.player.get_players(connection))
-  .then(players => players[0])
-  .then(player =>
-    heos.commands.player.set_play_mode(
-      connection,
-      player.pid,
-      repeat_state.on_one,
-      shuffle_state.off
-    )
-  )
+  .then(connection => 
+    heos.commands.player.get_players(connection)
+      .then(players => players[0])
+      .then(player =>
+        heos.commands.player.set_play_mode(
+          connection,
+          player.pid,
+          repeat_state.on_one,
+          shuffle_state.off
+        )
+      ))
 ```
 
 ## Documentation
