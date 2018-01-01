@@ -54,7 +54,7 @@ heos.createConnection()
     heos.commands.system.sign_in(
       connection,
       'user@gmail.com',
-      '********'
+      'hunter2'
     )
   )
 ```
