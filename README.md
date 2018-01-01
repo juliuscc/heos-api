@@ -81,8 +81,8 @@ heos.createConnection()
 
 ## Documentation
 Learn more about using heos-api at:
-* [API reference](http://juliuscc.github.io/heos-api)
-* [Guides](http://juliuscc.github.io/heos-api)
+* ~~API reference~~ 🚧 Under construction 🚧
+* ~~Guides~~ 🚧 Under construction 🚧
 * [The GitHub page](https://github.com/JuliusCC/heos-api)
 * [HEOS CLI Protocol Specification](http://rn.dmglobal.com/euheos/HEOS_CLI_ProtocolSpecification.pdf)
 
