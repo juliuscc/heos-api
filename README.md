@@ -40,8 +40,12 @@ To send a command just use one of the predefined heos-api functions. The respons
 const heos = require('heos-api')
 
 heos.createConnection()
-  .then(connection => heos.commands.player.get_players(connection))
-  .then(players => console.log(`The available players are: ${players}`))
+  .then(connection =>
+    heos.commands.player.get_players(connection)
+  )
+  .then(players =>
+    console.log(`The available players are: ${players}`)
+  )
 ```
 
 Commands that require parameters works as well:
