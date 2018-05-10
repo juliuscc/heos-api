@@ -18,7 +18,7 @@
 			"jest && codecov --file coverage/lcov.info --disable search",
 		"postversion": "git push && git push --tags && npm publish",
 		"prettify":
-			"prettier --single-quote --use-tabs --no-semi --write **/*.{js,jsx,json,css} !coverage/**"
+			"prettier --single-quote --use-tabs --no-semi --write **/*.{js,jsx,json,css,ts} !coverage/**"
 	},
 	"dependencies": {
 		"node-ssdp": "^3.2.5"
@@ -35,7 +35,7 @@
 		"collectCoverage": true
 	},
 	"lint-staged": {
-		"**/*.{js,jsx,json,css}": [
+		"**/*.{js,jsx,json,css,ts}": [
 			"prettier --single-quote --use-tabs --no-semi --write",
 			"git add"
 		]
