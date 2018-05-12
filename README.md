@@ -30,7 +30,7 @@ Let's get started with connecting to a heos control system:
 ```js
 const heos = require('heos-api')
 
-heos.createConnection()
+heos.discoverAndCreateConnection()
   .then(() => console.log('Connection established! 🌈'))
 ```
 
@@ -39,7 +39,7 @@ To send a command just use one of the predefined heos-api functions. The respons
 ```js
 const heos = require('heos-api')
 
-heos.createConnection()
+heos.discoverAndCreateConnection()
   .then(connection =>
     heos.commands.player.get_players(connection)
   )
@@ -53,7 +53,7 @@ Commands that require parameters works as well:
 ```js
 const heos = require('heos-api')
 
-heos.createConnection()
+heos.discoverAndCreateConnection()
   .then(connection =>
     heos.commands.system.sign_in(
       connection,
@@ -69,7 +69,7 @@ To use enums or constants just use `heos.constants`:
 const heos = require('heos-api')
 const { repeat_state, shuffle_state } = heos.constants
 
-heos.createConnection()
+heos.discoverAndCreateConnection()
   .then(connection => 
     heos.commands.player.get_players(connection)
       .then(players => players[0])
