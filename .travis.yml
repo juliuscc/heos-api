@@ -11,5 +11,5 @@ node_js:
 cache:
   directories:
   - node_modules
-script: 
+script:
   - npm run test:codecov
