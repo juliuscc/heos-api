@@ -2,7 +2,8 @@
 	"name": "heos-api",
 	"version": "2.0.0",
 	"description": "An API wrapper for the Heos CLI API for Node.js",
-	"main": "./lib/index.js",
+	"main": "lib/index.js",
+	"typings": "lib/src/index.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JuliusCC/heos-api"
@@ -11,28 +12,27 @@
 	"license": "MIT",
 	"private": false,
 	"scripts": {
-		"precommit": "lint-staged",
-		"test": "jest test/*",
-		"test:watch": "jest test --watch",
+		"compile": "tsc",
+		"test": "jest",
+		"test:watch": "jest --watch",
 		"test:codecov":
 			"jest && codecov --file coverage/lcov.info --disable search",
-		"postversion": "git push && git push --tags && npm publish",
-		"prettify":
-			"prettier --single-quote --use-tabs --no-semi --write **/*.{js,jsx,json,css,ts} !coverage/**"
+		"precommit": "lint-staged",
+		"postversion": "git push && git push --tags && npm publish"
 	},
 	"dependencies": {
+		"@types/es6-promise": "^3.3.0",
 		"node-ssdp": "^3.2.5"
 	},
 	"devDependencies": {
+		"@types/jest": "^22.2.3",
 		"codecov": "^3.0.0",
 		"husky": "^0.14.3",
-		"jest": "^22.0.0",
+		"jest": "^22.4.3",
 		"lint-staged": "^4.3.0",
-		"prettier": "^1.9.0"
-	},
-	"jest": {
-		"coverageDirectory": "./coverage/",
-		"collectCoverage": true
+		"prettier": "^1.9.0",
+		"ts-jest": "^22.4.6",
+		"typescript": "^2.8.3"
 	},
 	"lint-staged": {
 		"**/*.{js,jsx,json,css,ts}": [

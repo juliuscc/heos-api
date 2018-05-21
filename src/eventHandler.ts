@@ -1,4 +1,10 @@
-const bindCallback = callbackType => (connection, event, callback) => {
+import { HeosConnection, HeosResponseData } from './types'
+
+const bindCallback = callbackType => (
+	connection: HeosConnection,
+	event,
+	callback
+) => {
 	connection[callbackType] = connection[callbackType]
 		? connection[callbackType]
 		: {}
@@ -9,7 +15,11 @@ const bindCallback = callbackType => (connection, event, callback) => {
 		: [callback]
 }
 
-const unbindCallback = callbackType => (connection, event, callback) => {
+const unbindCallback = callbackType => (
+	connection: HeosConnection,
+	event,
+	callback
+) => {
 	const current = connection[callbackType][event]
 
 	connection[callbackType][event] = callback
@@ -17,8 +27,12 @@ const unbindCallback = callbackType => (connection, event, callback) => {
 		: []
 }
 
-const triggerCallback = callbackType => (connection, event, data) => {
-	const callbacks = connection[callbackType][event] || []
+const triggerCallback = (callbackType: string) => (
+	connection: HeosConnection,
+	event: string,
+	data: HeosResponseData
+) => {
+	const callbacks: Function[] = connection[callbackType][event] || []
 	const unique = [...new Set(callbacks)]
 
 	unique.forEach(c => c(data))
@@ -42,20 +56,27 @@ const useOneCallback = callbackType => resolve_reject => (
 	firstCallback[resolve_reject](data)
 }
 
-exports.bindEvent = (connection, event, callback) =>
+export const bindEvent = (connection: HeosConnection, event, callback) =>
 	bindCallback('events')(connection, event, callback)
 
-exports.bindResponse = (connection, response, resolve, reject) =>
-	bindCallback('responses')(connection, response, { resolve, reject })
+export const bindResponse = (
+	connection: HeosConnection,
+	response,
+	resolve,
+	reject
+) => bindCallback('responses')(connection, response, { resolve, reject })
 
-exports.unbindEvent = (connection, event, callback) =>
+export const unbindEvent = (connection: HeosConnection, event, callback) =>
 	unbindCallback('events')(connection, event, callback)
 
-exports.triggerEvent = (connection, event, data) =>
+export const triggerEvent = (connection: HeosConnection, event, data) =>
 	triggerCallback('events')(connection, event, data)
 
-exports.resolveOneResponse = (connection, response, data) =>
-	useOneCallback('responses')('resolve')(connection, response, data)
+export const resolveOneResponse = (
+	connection: HeosConnection,
+	response,
+	data
+) => useOneCallback('responses')('resolve')(connection, response, data)
 
-exports.rejectOneResponse = (connection, response, data) =>
+export const rejectOneResponse = (connection: HeosConnection, response, data) =>
 	useOneCallback('responses')('reject')(connection, response, data)

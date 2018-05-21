@@ -1,10 +1,11 @@
-const {
+import { HeosConnection, HeosResponse } from './types'
+import {
 	triggerEvent,
 	resolveOneResponse,
 	rejectOneResponse
-} = require('./eventHandler')
+} from './eventHandler'
 
-const breakCommand = rawCommand => {
+export const breakCommand = rawCommand => {
 	const checkValidity = () => {
 		return rawCommand === undefined
 			? 'Input missing'
@@ -29,7 +30,7 @@ const breakCommand = rawCommand => {
 	return { rawCommand, command_group, command }
 }
 
-const parseMessage = rawMessage => {
+export const parseMessage = rawMessage => {
 	if (!rawMessage) return undefined
 	if (!rawMessage.includes('=')) return { rawMessage, message: rawMessage }
 	const parameters = rawMessage
@@ -50,7 +51,7 @@ const parseMessage = rawMessage => {
  * TODO: Add 'options' next to message and payload
  *
  */
-const createDataHandler = (
+export const createDataHandler = (
 	triggerEvent,
 	resolveOneResponse,
 	rejectOneResponse
@@ -61,40 +62,36 @@ const createDataHandler = (
 		.filter(row => row.length > 0)
 
 	responses.forEach(commandResponse => {
-		const response = JSON.parse(commandResponse)
+		const response: HeosResponse = JSON.parse(commandResponse)
 		const commandGroup = breakCommand(response.heos.command).command_group
 		if (commandGroup === 'event')
 			triggerEvent(connection, response.heos.command, {
 				message: parseMessage(response.heos.message)
-					? parseMessage(response.heos.message).message
+					? parseMessage(response.heos.message)!.message
 					: undefined,
 				payload: response.payload
 			})
 		else if (!response.heos.result || response.heos.result !== 'fail')
 			resolveOneResponse(connection, response.heos.command, {
 				message: parseMessage(response.heos.message)
-					? parseMessage(response.heos.message).message
+					? parseMessage(response.heos.message)!.message
 					: undefined,
 				payload: response.payload
 			})
 		else
 			rejectOneResponse(connection, response.heos.command, {
 				message: parseMessage(response.heos.message)
-					? parseMessage(response.heos.message).message
+					? parseMessage(response.heos.message)!.message
 					: undefined
 			})
 	})
 }
 
-const dataEventHandler = createDataHandler(
+export const dataEventHandler: ((
+	connection: HeosConnection,
+	buffer: any
+) => void) = createDataHandler(
 	triggerEvent,
 	resolveOneResponse,
 	rejectOneResponse
 )
-
-module.exports = {
-	breakCommand,
-	parseMessage,
-	createDataHandler,
-	dataEventHandler
-}
