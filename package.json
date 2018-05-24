@@ -16,7 +16,7 @@
 		"test:watch": "jest test --watch",
 		"test:codecov":
 			"jest && codecov --file coverage/lcov.info --disable search",
-		"postversion": "git push && git push --tags",
+		"postversion": "git push --follow-tags",
 		"prettify":
 			"prettier --single-quote --use-tabs --no-semi --write **/*.{js,jsx,json,css,ts} !coverage/**"
 	},
