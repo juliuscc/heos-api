@@ -166,6 +166,25 @@ describe('Incoming data is correctly processed and handled', () => {
 		}
 	}\r\n`
 
+	const mockJunkMessage = `{
+		"heos": {
+			"command": "system/sign_in",
+			"result": "success",
+			"message": "command under process&un=hello&pw=world"
+		}
+	}`
+
+	it("Messages with 'command under process' should be ignored", () => {
+		const mockTriggerEvent = jest.fn()
+		const mockUseOneResponse = jest.fn()
+		const dataHandler = createDataHandler(mockTriggerEvent, mockUseOneResponse)
+
+		dataHandler({}, new Buffer(mockJunkMessage))
+
+		expect(mockTriggerEvent).toHaveBeenCalledTimes(0)
+		expect(mockUseOneResponse).toHaveBeenCalledTimes(0)
+	})
+
 	it('Triggers event or / and response when called', () => {
 		const mockTriggerEvent = jest.fn()
 		const mockUseOneResponse = jest.fn()
