@@ -1,43 +1,38 @@
 {
 	"name": "heos-api",
-	"version": "2.0.0",
-	"description": "An API wrapper for the Heos CLI API for Node.js",
+	"version": "3.0.0-beta.0",
+	"description": "A low level api-wrapper for communicating with heos devices",
+	"author": "Julius Recep Colliander Celik",
 	"main": "lib/index.js",
 	"typings": "lib/src/index.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JuliusCC/heos-api"
 	},
-	"author": "Julius Colliander Celik",
+	"bugs": {
+		"url": "https://github.com/JuliusCC/heos-api/issues"
+	},
+	"homepage": "https://github.com/juliuscc/heos-api#readme",
 	"license": "MIT",
 	"private": false,
 	"scripts": {
 		"compile": "tsc",
-		"test": "jest",
+		"clean": "rm -rf lib",
+		"build": "npm run clean && npm run compile",
+		"test": "jest --env=node --colors --coverage test",
 		"test:watch": "jest --watch",
-		"test:codecov":
-			"jest && codecov --file coverage/lcov.info --disable search",
+		"test:codecov": "jest && codecov --file coverage/lcov.info --disable search",
 		"precommit": "lint-staged",
 		"postversion": "git push && git push --tags && npm publish"
 	},
-	"dependencies": {
-		"@types/es6-promise": "^3.3.0",
-		"node-ssdp": "^3.2.5"
-	},
 	"devDependencies": {
-		"@types/jest": "^22.2.3",
-		"codecov": "^3.0.0",
+		"@types/jest": "^23.3.10",
+		"codecov": "^3.1.0",
 		"husky": "^0.14.3",
-		"jest": "^22.4.3",
+		"jest": "^22.4.4",
 		"lint-staged": "^4.3.0",
-		"prettier": "^1.9.0",
+		"prettier": "^1.15.3",
 		"ts-jest": "^22.4.6",
-		"typescript": "^2.8.3"
-	},
-	"lint-staged": {
-		"**/*.{js,jsx,json,css,ts}": [
-			"prettier --single-quote --use-tabs --no-semi --write",
-			"git add"
-		]
+		"typescript": "^2.9.2"
 	}
 }

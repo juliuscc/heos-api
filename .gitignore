@@ -1,18 +1,18 @@
-# dependencies
+# Dependencies
 /node_modules
+/package-lock.json
 
-# misc
+# Misc
 .DS_Store
 
-# debug
-/.vscode
-example\.js
+# Compiled assets
+/lib
+/coverage
 
+# IDE files
+/.vscode
+
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-/coverage
-
-lib/*
-lib/
