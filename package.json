@@ -16,7 +16,7 @@
 	"license": "MIT",
 	"private": false,
 	"scripts": {
-		"compile": "tsc",
+		"compile": "tsc --declaration",
 		"clean": "rm -rf lib",
 		"build": "npm run clean && npm run compile",
 		"test": "jest --env=node --colors --coverage test",

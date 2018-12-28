@@ -1,3 +1,5 @@
+import './types'
+
 const prefix: string = 'heos://'
 const postfix: string = '\r\n'
 
