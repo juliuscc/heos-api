@@ -20,8 +20,8 @@
 		"clean": "rm -rf lib",
 		"build": "npm run clean && npm run compile",
 		"test": "jest --env=node --colors --coverage test",
-		"test:watch": "jest --watch",
-		"test:codecov": "jest && codecov --file coverage/lcov.info --disable search",
+		"test:watch": "npm run test -- --watch",
+		"test:codecov": "npm run test && codecov --file coverage/lcov.info --disable search",
 		"precommit": "lint-staged",
 		"postversion": "git push && git push --tags && npm publish"
 	},
