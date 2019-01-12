@@ -1,12 +1,6 @@
-const messageDelimiter = '\r\n'
+import { HeosResponse } from './types'
 
-export type HeosResponse = {
-	heos: {
-		command: string
-		result: string
-		message: string
-	}
-}
+const messageDelimiter = '\r\n'
 
 function isHeosResponse(response: any): response is HeosResponse {
 	if (response.hasOwnProperty('heos')) {

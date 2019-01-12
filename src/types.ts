@@ -1,4 +1,4 @@
-declare interface HeosResponse {
+export type HeosResponse = {
 	heos: {
 		command: string
 		result: string
