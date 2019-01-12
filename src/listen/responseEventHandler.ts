@@ -2,6 +2,11 @@ import { HeosResponse, HeosEvent, HeosCommand } from '../types'
 import { EventEmitter } from 'events'
 import { generateHeosCommandString } from './heosCommand'
 
+export type HeosEventEmitter = (
+	event: HeosCommand,
+	listener: (message: HeosResponse | HeosEvent) => void
+) => ResponseEventHandler
+
 export class ResponseEventHandler {
 	constructor() {
 		this.emitter = new EventEmitter()

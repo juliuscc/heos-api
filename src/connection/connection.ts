@@ -1,8 +1,10 @@
 import { createConnection, Socket } from 'net'
-import { EventEmitter } from 'events'
 import { DEFAULT_PORT } from '../utils/constants'
-// import { ResponseParser } from '../listen/responseParser'
-// import { HeosResponse } from '../types'
+import {
+	ResponseEventHandler,
+	HeosEventEmitter
+} from '../listen/responseEventHandler'
+import { ResponseParser } from '../listen/responseParser'
 
 type HeosSocket = {
 	write: Socket['write']
@@ -10,11 +12,10 @@ type HeosSocket = {
 
 export type HeosConnection = {
 	write: Socket['write']
-	on: EventEmitter['on']
-	once: EventEmitter['once']
+	on: HeosEventEmitter
+	once: HeosEventEmitter
 }
 
-// @ts-ignore
 function createHeosSocket(
 	address: string,
 	onData: (data: string) => void
@@ -37,16 +38,17 @@ function createHeosSocket(
 	})
 }
 
-// export function connect(address: string): Promise<HeosConnection> {
-// 	return new Promise((resolve, reject) => {
-// 		const onEvent = (message: HeosResponse) => {
-// 			console.log(message)
-// 		}
+export function connect(address: string): Promise<HeosConnection> {
+	return new Promise((resolve, reject) => {
+		const responseEventHandler = new ResponseEventHandler()
+		const responseParser = new ResponseParser(responseEventHandler.put)
 
-// 		const responseParser = new ResponseParser(onEvent)
-
-// 		createHeosSocket(address, responseParser.put)
-// 			.then(resolve)
-// 			.catch(reject)
-// 	})
-// }
+		createHeosSocket(address, responseParser.put)
+			.then(socket => ({
+				write: socket.write,
+				on: responseEventHandler.on,
+				once: responseEventHandler.once
+			}))
+			.catch(reject)
+	})
+}
