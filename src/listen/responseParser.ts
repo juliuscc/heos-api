@@ -1,4 +1,4 @@
-import { HeosResponse } from './types'
+import { HeosResponse, HeosEvent } from '../types'
 
 const messageDelimiter = '\r\n'
 
@@ -23,12 +23,28 @@ function isHeosResponse(response: any): response is HeosResponse {
 	return false
 }
 
+function isHeosEvent(response: any): response is HeosEvent {
+	if (response.hasOwnProperty('heos')) {
+		const heos: any = response.heos
+
+		if (heos.hasOwnProperty('command') && heos.hasOwnProperty('result')) {
+			if (
+				typeof heos.command === 'string' &&
+				typeof heos.result === 'string'
+			) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 export class ResponseParser {
-	constructor(callback: (message: HeosResponse) => void) {
+	constructor(callback: (message: HeosResponse | HeosEvent) => void) {
 		this.callback = callback
 	}
 
-	callback: (message: HeosResponse) => void
+	callback: (message: HeosResponse | HeosEvent) => void
 	buffer: string = ''
 
 	put(data: string) {
@@ -49,7 +65,7 @@ export class ResponseParser {
 				.filter((row: string) => row.length > 0)
 				.map((message: string) => JSON.parse(message))
 				.map((response: any) => {
-					if (isHeosResponse(response)) {
+					if (isHeosResponse(response) || isHeosEvent(response)) {
 						return response
 					} else {
 						throw new TypeError()

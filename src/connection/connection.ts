@@ -1,8 +1,8 @@
 import { createConnection, Socket } from 'net'
 import { EventEmitter } from 'events'
-import { DEFAULT_PORT } from './utils/constants'
-import { ResponseParser } from './responseParser'
-import { HeosResponse } from './types'
+import { DEFAULT_PORT } from '../utils/constants'
+// import { ResponseParser } from '../listen/responseParser'
+// import { HeosResponse } from '../types'
 
 type HeosSocket = {
 	write: Socket['write']
@@ -14,6 +14,7 @@ export type HeosConnection = {
 	once: EventEmitter['once']
 }
 
+// @ts-ignore
 function createHeosSocket(
 	address: string,
 	onData: (data: string) => void
@@ -36,16 +37,16 @@ function createHeosSocket(
 	})
 }
 
-export function connect(address: string): Promise<HeosConnection> {
-	return new Promise((resolve, reject) => {
-		const onEvent = (message: HeosResponse) => {
-			console.log(message)
-		}
+// export function connect(address: string): Promise<HeosConnection> {
+// 	return new Promise((resolve, reject) => {
+// 		const onEvent = (message: HeosResponse) => {
+// 			console.log(message)
+// 		}
 
-		const responseParser = new ResponseParser(onEvent)
+// 		const responseParser = new ResponseParser(onEvent)
 
-		createHeosSocket(address, responseParser.put)
-			.then(resolve)
-			.catch(reject)
-	})
-}
+// 		createHeosSocket(address, responseParser.put)
+// 			.then(resolve)
+// 			.catch(reject)
+// 	})
+// }

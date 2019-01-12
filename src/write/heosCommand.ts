@@ -1,11 +1,7 @@
-import './types'
+import { HeosCommandAttribute } from '../types'
 
 const prefix: string = 'heos://'
 const postfix: string = '\r\n'
-
-export type HeosCommandAttribute = {
-	[key: string]: string | number
-}
 
 function attributeString(attributes?: HeosCommandAttribute): string {
 	if (!attributes || Object.entries(attributes).length < 1) {

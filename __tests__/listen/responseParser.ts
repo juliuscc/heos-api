@@ -1,4 +1,4 @@
-import { ResponseParser } from '../src/responseParser'
+import { ResponseParser } from '../../src/listen/responseParser'
 
 describe('Heos response messages can be correctly parsed', () => {
 	test('When receiving a message it triggers a callback', () => {
@@ -82,8 +82,7 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		const errorObject = {
 			heos: {
-				command: 'system/heart_beat',
-				result: 'success'
+				command: 'system/heart_beat'
 			}
 		}
 

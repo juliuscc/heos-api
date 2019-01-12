@@ -1,4 +1,4 @@
-import { generateHeosCommand } from '../src/heosCommand'
+import { generateHeosCommand } from '../../src/write/heosCommand'
 
 describe('Heos commands can be correctly created', () => {
 	test('A new command can be created', () => {
