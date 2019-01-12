@@ -1,19 +1,11 @@
 import { createConnection, Socket } from 'net'
 import { DEFAULT_PORT } from '../utils/constants'
-import {
-	ResponseEventHandler,
-	HeosEventEmitter
-} from '../listen/responseEventHandler'
+import { ResponseEventHandler } from '../listen/responseEventHandler'
 import { ResponseParser } from '../listen/responseParser'
+import { HeosConnection } from '../types'
 
 type HeosSocket = {
 	write: Socket['write']
-}
-
-export type HeosConnection = {
-	write: Socket['write']
-	on: HeosEventEmitter
-	once: HeosEventEmitter
 }
 
 function createHeosSocket(
