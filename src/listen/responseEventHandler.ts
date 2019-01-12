@@ -11,8 +11,7 @@ export class ResponseEventHandler {
 
 	put(message: HeosResponse | HeosEvent): void {
 		const eventString = generateHeosCommandString(message.heos.command)
-
-		this.emitter.emit(eventString)
+		this.emitter.emit(eventString, message)
 	}
 
 	on(
@@ -20,9 +19,16 @@ export class ResponseEventHandler {
 		listener: (message: HeosResponse | HeosEvent) => void
 	): ResponseEventHandler {
 		const eventString = generateHeosCommandString(event)
-
 		this.emitter.on(eventString, listener)
+		return this
+	}
 
+	once(
+		event: HeosCommand,
+		listener: (message: HeosResponse | HeosEvent) => void
+	): ResponseEventHandler {
+		const eventString = generateHeosCommandString(event)
+		this.emitter.once(eventString, listener)
 		return this
 	}
 }
