@@ -10,7 +10,7 @@ describe('Heos response messages can be correctly parsed', () => {
 			'{"heos": {"command": "", "result": "", "message": ""}}\r\n'
 		)
 
-		expect(mockCallback.mock.calls.length).toBe(1)
+		expect(mockCallback).toBeCalledTimes(1)
 	})
 
 	test('Delimiters are used correctly', () => {
@@ -23,17 +23,17 @@ describe('Heos response messages can be correctly parsed', () => {
 			'os": {"command": "", "result": "", "message": ""}}\r\n'
 		)
 
-		expect(mockCallback.mock.calls.length).toBe(1)
+		expect(mockCallback).toBeCalledTimes(1)
 
 		messageParser.put(
 			'{"heos": {"command": "", "result": "", "message": ""}}\r\n{"heos": {"command": "", "result": "", "message": ""}}\r\n'
 		)
-		expect(mockCallback.mock.calls.length).toBe(3)
+		expect(mockCallback).toBeCalledTimes(3)
 
 		messageParser.put(
 			'{"heos": {"command": "", "result": "", "message": ""}}\r\n{ "heos":'
 		)
-		expect(mockCallback.mock.calls.length).toBe(4)
+		expect(mockCallback).toBeCalledTimes(4)
 	})
 
 	test('The parser returns the message as an object', () => {
@@ -45,7 +45,7 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		messageParser.put(JSON.stringify(mockObject) + '\r\n')
 
-		expect(mockCallback.mock.calls.length).toBe(1)
+		expect(mockCallback).toBeCalledTimes(1)
 		expect(mockCallback.mock.calls[0][0]).toEqual(mockObject)
 	})
 
