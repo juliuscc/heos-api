@@ -25,7 +25,7 @@ npm install --save heos-api@^2.0.0
 Install heos-api using `npm`:
 
 ```
-npm install --save heos-api
+npm install heos-api
 ```
 
 Let's get started with connecting to a heos control system:
