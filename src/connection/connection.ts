@@ -2,7 +2,8 @@ import { createConnection, Socket } from 'net'
 import { DEFAULT_PORT } from '../utils/constants'
 import { ResponseEventHandler } from '../listen/responseEventHandler'
 import { ResponseParser } from '../listen/responseParser'
-import { HeosConnection } from '../types'
+import { HeosConnection, HeosCommandAttribute } from '../types'
+import { generateHeosCommand } from '../write/heosCommand'
 
 type HeosSocket = {
 	write: Socket['write']
@@ -36,11 +37,22 @@ export function connect(address: string): Promise<HeosConnection> {
 		const responseParser = new ResponseParser(responseEventHandler.put)
 
 		createHeosSocket(address, responseParser.put)
-			.then(socket => ({
-				write: socket.write,
-				on: responseEventHandler.on,
-				once: responseEventHandler.once
-			}))
+			.then(socket => {
+				const write = (
+					commandGroup: string,
+					command: string,
+					attributes?: HeosCommandAttribute
+				) =>
+					socket.write(
+						generateHeosCommand(commandGroup, command, attributes)
+					)
+
+				return {
+					write,
+					on: responseEventHandler.on,
+					once: responseEventHandler.once
+				}
+			})
 			.catch(reject)
 	})
 }
