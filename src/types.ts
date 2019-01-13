@@ -29,7 +29,11 @@ export type HeosResponse = {
 }
 
 export type HeosConnection = {
-	write: Socket['write']
+	write: (
+		commandGroup: string,
+		command: string,
+		attributes?: HeosCommandAttribute
+	) => HeosConnection
 	on: HeosEventEmitter
 	once: HeosEventEmitter
 }

@@ -35,17 +35,26 @@ export function connect(address: string): Promise<HeosConnection> {
 
 		createHeosSocket(address, responseParser.put)
 			.then(socket => {
-				const write = (
+				const connection = {
+					on: responseEventHandler.on,
+					once: responseEventHandler.once,
+					write
+				}
+
+				function write(
 					commandGroup: string,
 					command: string,
 					attributes?: HeosCommandAttribute
-				) => socket.write(generateHeosCommand(commandGroup, command, attributes))
+				): HeosConnection {
+					socket.write(generateHeosCommand(commandGroup, command, attributes))
+					return connection
+				}
 
-				return {
+				resolve({
 					write,
 					on: responseEventHandler.on,
 					once: responseEventHandler.once
-				}
+				})
 			})
 			.catch(reject)
 	})
