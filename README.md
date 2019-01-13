@@ -69,7 +69,7 @@ Learn more about using heos-api at:
 
 -   ~~API reference~~ 🚧 Under construction 🚧
 -   ~~Guides~~ 🚧 Under construction 🚧
--   [The GitHub page](https://github.com/juliuscc/heos-api/)
+-   [The GitHub page](https://github.com/juliuscc/heos-api)
 -   [HEOS CLI Protocol Specification](http://rn.dmglobal.com/euheos/HEOS_CLI_ProtocolSpecification.pdf)
 
 ## Contributing
