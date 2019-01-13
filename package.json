@@ -1,6 +1,6 @@
 {
 	"name": "heos-api",
-	"version": "3.0.2",
+	"version": "3.1.0",
 	"description": "A low level api-wrapper for communicating with heos devices",
 	"keywords": [
 		"heos",
