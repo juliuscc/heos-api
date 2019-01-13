@@ -6,9 +6,7 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		const messageParser: ResponseParser = new ResponseParser(mockCallback)
 
-		messageParser.put(
-			'{"heos": {"command": "", "result": "", "message": ""}}\r\n'
-		)
+		messageParser.put('{"heos": {"command": "", "result": "", "message": ""}}\r\n')
 
 		expect(mockCallback).toBeCalledTimes(1)
 	})
@@ -19,9 +17,7 @@ describe('Heos response messages can be correctly parsed', () => {
 		const messageParser: ResponseParser = new ResponseParser(mockCallback)
 
 		messageParser.put('{"he')
-		messageParser.put(
-			'os": {"command": "", "result": "", "message": ""}}\r\n'
-		)
+		messageParser.put('os": {"command": "", "result": "", "message": ""}}\r\n')
 
 		expect(mockCallback).toBeCalledTimes(1)
 
@@ -30,9 +26,7 @@ describe('Heos response messages can be correctly parsed', () => {
 		)
 		expect(mockCallback).toBeCalledTimes(3)
 
-		messageParser.put(
-			'{"heos": {"command": "", "result": "", "message": ""}}\r\n{ "heos":'
-		)
+		messageParser.put('{"heos": {"command": "", "result": "", "message": ""}}\r\n{ "heos":')
 		expect(mockCallback).toBeCalledTimes(4)
 	})
 
@@ -105,9 +99,7 @@ describe('Heos response messages can be correctly parsed', () => {
 		expect((<any>console.log).mock.calls.length).toBe(3)
 
 		for (const result of (<any>console.log).mock.calls) {
-			expect(result[0]).toEqual(
-				'Heos response has wrong structure. Flushing buffer.'
-			)
+			expect(result[0]).toEqual('Heos response has wrong structure. Flushing buffer.')
 		}
 	})
 })

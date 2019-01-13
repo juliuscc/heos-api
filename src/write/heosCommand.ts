@@ -31,12 +31,5 @@ export function generateHeosCommand(
 		throw new Error('Missing arguments when creating HeosCommand')
 	}
 
-	return [
-		prefix,
-		commandGroup,
-		'/',
-		command,
-		attributeString(attributes),
-		postfix
-	].join('')
+	return [prefix, commandGroup, '/', command, attributeString(attributes), postfix].join('')
 }

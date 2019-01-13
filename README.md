@@ -40,8 +40,8 @@ To send a command just use one of the predefined heos-api functions. The respons
 const heos = require('heos-api')
 
 heos.discoverAndCreateConnection()
-    .then(connection => heos.commands.player.get_players(connection))
-    .then(players => console.log(`The available players are: ${players}`))
+	.then(connection => heos.commands.player.get_players(connection))
+	.then(players => console.log(`The available players are: ${players}`))
 ```
 
 Commands that require parameters works as well:
@@ -50,7 +50,7 @@ Commands that require parameters works as well:
 const heos = require('heos-api')
 
 heos.discoverAndCreateConnection().then(connection =>
-    heos.commands.system.sign_in(connection, 'user@gmail.com', 'hunter2')
+	heos.commands.system.sign_in(connection, 'user@gmail.com', 'hunter2')
 )
 ```
 
@@ -61,17 +61,17 @@ const heos = require('heos-api')
 const { repeat_state, shuffle_state } = heos.constants
 
 heos.discoverAndCreateConnection().then(connection =>
-    heos.commands.player
-        .get_players(connection)
-        .then(players => players[0])
-        .then(player =>
-            heos.commands.player.set_play_mode(
-                connection,
-                player.pid,
-                repeat_state.on_one,
-                shuffle_state.off
-            )
-        )
+	heos.commands.player
+		.get_players(connection)
+		.then(players => players[0])
+		.then(player =>
+			heos.commands.player.set_play_mode(
+				connection,
+				player.pid,
+				repeat_state.on_one,
+				shuffle_state.off
+			)
+		)
 )
 ```
 

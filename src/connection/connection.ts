@@ -9,10 +9,7 @@ type HeosSocket = {
 	write: Socket['write']
 }
 
-function createHeosSocket(
-	address: string,
-	onData: (data: string) => void
-): Promise<HeosSocket> {
+function createHeosSocket(address: string, onData: (data: string) => void): Promise<HeosSocket> {
 	return new Promise((resolve, reject) => {
 		const host: string = address
 		const port: number = DEFAULT_PORT
@@ -42,10 +39,7 @@ export function connect(address: string): Promise<HeosConnection> {
 					commandGroup: string,
 					command: string,
 					attributes?: HeosCommandAttribute
-				) =>
-					socket.write(
-						generateHeosCommand(commandGroup, command, attributes)
-					)
+				) => socket.write(generateHeosCommand(commandGroup, command, attributes))
 
 				return {
 					write,

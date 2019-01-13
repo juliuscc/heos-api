@@ -28,10 +28,7 @@ function isHeosEvent(response: any): response is HeosEvent {
 		const heos: any = response.heos
 
 		if (heos.hasOwnProperty('command') && heos.hasOwnProperty('result')) {
-			if (
-				typeof heos.command === 'string' &&
-				typeof heos.result === 'string'
-			) {
+			if (typeof heos.command === 'string' && typeof heos.result === 'string') {
 				return true
 			}
 		}
@@ -74,9 +71,7 @@ export class ResponseParser {
 				.forEach(this.callback)
 		} catch (error) {
 			if (error instanceof TypeError) {
-				console.log(
-					'Heos response has wrong structure. Flushing buffer.'
-				)
+				console.log('Heos response has wrong structure. Flushing buffer.')
 			} else {
 				console.log('Error parsing incoming messages. Flushing buffer.')
 			}
