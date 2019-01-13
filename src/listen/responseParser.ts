@@ -27,9 +27,13 @@ function isHeosEvent(response: any): response is HeosEvent {
 	if (response.hasOwnProperty('heos')) {
 		const heos: any = response.heos
 
-		if (heos.hasOwnProperty('command') && heos.hasOwnProperty('result')) {
-			if (typeof heos.command === 'string' && typeof heos.result === 'string') {
-				return true
+		if (heos.hasOwnProperty('command')) {
+			if (typeof heos.command === 'string') {
+				if (heos.hasOwnProperty('message')) {
+					return typeof heos.message === 'string'
+				} else {
+					return true
+				}
 			}
 		}
 	}

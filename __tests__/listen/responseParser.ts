@@ -67,7 +67,7 @@ describe('Heos response messages can be correctly parsed', () => {
 		})
 	})
 
-	test.only('Missing parameters flushes buffer', () => {
+	test('Missing parameters flushes buffer', () => {
 		const mockCallback = jest.fn()
 
 		console.log = jest.fn()
@@ -76,7 +76,8 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		const errorObject = {
 			heos: {
-				command: 'system/heart_beat'
+				result: 'system/heart_beat',
+				message: true
 			}
 		}
 
@@ -101,5 +102,22 @@ describe('Heos response messages can be correctly parsed', () => {
 		for (const result of (<any>console.log).mock.calls) {
 			expect(result[0]).toEqual('Heos response has wrong structure. Flushing buffer.')
 		}
+	})
+
+	test('Heos events works as well', () => {
+		const mockCallback = jest.fn()
+
+		const messageParser: ResponseParser = new ResponseParser(mockCallback)
+
+		const mockObject = {
+			heos: {
+				command: 'event/sources_changed'
+			}
+		}
+
+		messageParser.put(JSON.stringify(mockObject) + '\r\n')
+
+		expect(mockCallback).toBeCalledTimes(1)
+		expect(mockCallback.mock.calls[0][0]).toEqual(mockObject)
 	})
 })

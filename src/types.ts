@@ -14,7 +14,7 @@ export type HeosCommand = {
 export type HeosEvent = {
 	heos: {
 		command: HeosCommand
-		message: string
+		message?: string
 	}
 }
 
