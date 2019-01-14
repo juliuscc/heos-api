@@ -70,19 +70,16 @@ const heos = require('heos-api')
 
 heos.discoverOne()
 	.then(address => heos.connect(address))
-	.then(connection => connection.write(
-		'system',
-		'prettify_json_response',
-		{ enable: on }
-	))
-	.then(connection => connection.on(
-		{
-			commandGroup:'event',
-			command:'player_volume_changed'
-		},
-		console.log
-	))
-)
+	.then(connection => connection.write('system', 'prettify_json_response', { enable: on }))
+	.then(connection =>
+		connection.on(
+			{
+				commandGroup: 'event',
+				command: 'player_volume_changed'
+			},
+			console.log
+		)
+	)
 ```
 
 ## Documentation
