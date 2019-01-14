@@ -14,7 +14,7 @@ A low level Node.js api-wrapper for communicating with heos devices. It enables 
 
 ## Upgrading from 2.X.X
 
-The module changed a lot from version 2 to version 4. The underlying communication handlers were rebuilt and the high level commands and promise based wrappers were removed, to better focus the package on providing a great communication library. The high level features will be implemented in [heos-client](https://www.npmjs.com/package/heos-client), and can still be accessed by downloading version 2 of this package.
+The module changed a lot from version 2 to version 3. The underlying communication handlers were rebuilt and the high level commands and promise based wrappers were removed, to better focus the package on providing a great communication library. The high level features will be implemented in [heos-client](https://www.npmjs.com/package/heos-client), and can still be accessed by downloading version 2 of this package.
 
 ```
 npm install --save heos-api@^2.0.0
