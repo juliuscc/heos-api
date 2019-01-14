@@ -38,7 +38,7 @@ heos.discoverOne()
 	.then(() => console.log('Connection established! 🌈'))
 ```
 
-To send a command just use one of the predefined heos-api functions. The response will resolve the promise:
+To send a command just use connection.write():
 
 ```js
 const heos = require('heos-api')
@@ -59,6 +59,28 @@ heos.discoverOne()
 		'system',
 		'prettify_json_response',
 		{ enable: on }
+	))
+)
+```
+
+To listen to events and responces you can use `.on` and `.once` which work exactly as they do in [EventEmitter](https://nodejs.org/api/events.html):
+
+```js
+const heos = require('heos-api')
+
+heos.discoverOne()
+	.then(address => heos.connect(address))
+	.then(connection => connection.write(
+		'system',
+		'prettify_json_response',
+		{ enable: on }
+	))
+	.then(connection => connection.on(
+		{
+			commandGroup:'event',
+			command:'player_volume_changed'
+		},
+		console.log
 	))
 )
 ```
