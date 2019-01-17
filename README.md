@@ -86,7 +86,7 @@ heos.discoverOneDevice()
 
 Learn more about using heos-api at:
 
--   ~~API reference~~ 🚧 Under construction 🚧
+-   [API reference](https://juliuscc.github.io/heos-api/)
 -   ~~Guides~~ 🚧 Under construction 🚧
 -   [The GitHub page](https://github.com/juliuscc/heos-api)
 -   [HEOS CLI Protocol Specification](http://rn.dmglobal.com/euheos/HEOS_CLI_ProtocolSpecification.pdf)
