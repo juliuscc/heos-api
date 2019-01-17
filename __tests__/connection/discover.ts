@@ -1,6 +1,4 @@
 import { discoverOneDevice } from '../../src/connection/discover'
-import { mocked } from 'ts-jest/utils'
-import dgram, { createSocket } from 'dgram'
 
 jest.mock('dgram')
 
