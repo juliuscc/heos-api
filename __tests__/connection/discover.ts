@@ -1,4 +1,5 @@
 import { discoverOneDevice } from '../../src/connection/discover'
+import dgram from 'dgram'
 
 jest.mock('dgram')
 
