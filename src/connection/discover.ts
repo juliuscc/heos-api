@@ -18,8 +18,10 @@ type RInfo = {
 	size: number
 }
 
+const defaultTimeout = 5000
+
 export function discoverDevices(
-	timeout: number = 5000,
+	timeout: number = defaultTimeout,
 	onDiscover: (address: string) => void,
 	onTimeout?: (addresses: string[]) => void
 ): () => void {
@@ -51,7 +53,7 @@ export function discoverDevices(
 	return quit
 }
 
-export function discoverOneDevice(timeout: number = 10000): Promise<string> {
+export function discoverOneDevice(timeout: number = defaultTimeout): Promise<string> {
 	return new Promise((resolve, reject) => {
 		let oneDiscovered: boolean = false
 
