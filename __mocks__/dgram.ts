@@ -2,6 +2,7 @@ let response = {
 	msg: 'urn:schemas-denon-com:device:ACT-Denon:1',
 	rinfo: { address: '192.168.0.5' }
 }
+
 export function __setMsg(msg: string) {
 	response.msg = msg
 }
