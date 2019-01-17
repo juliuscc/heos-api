@@ -33,7 +33,7 @@ Let's get started with connecting to a heos control system:
 ```js
 const heos = require('heos-api')
 
-heos.discoverOne()
+heos.discoverOneDevice()
 	.then(address => heos.connect(address))
 	.then(() => console.log('Connection established! 🌈'))
 ```
@@ -43,7 +43,7 @@ To send a command just use connection.write():
 ```js
 const heos = require('heos-api')
 
-heos.discoverOne()
+heos.discoverOneDevice()
 	.then(address => heos.connect(address))
 	.then(connection => connection.write('system', 'heart_beat'))
 ```
@@ -53,7 +53,7 @@ Commands that require parameters works as well:
 ```js
 const heos = require('heos-api')
 
-heos.discoverOne()
+heos.discoverOneDevice()
 	.then(address => heos.connect(address))
 	.then(connection => connection.write(
 		'system',
@@ -68,9 +68,9 @@ To listen to events and responses you can use `.on` and `.once` which work exact
 ```js
 const heos = require('heos-api')
 
-heos.discoverOne()
+heos.discoverOneDevice()
 	.then(address => heos.connect(address))
-	.then(connection => connection.write('system', 'prettify_json_response', { enable: on }))
+	.then(connection => connection.write('system', 'prettify_json_response', { enable: 'on' }))
 	.then(connection =>
 		connection.on(
 			{
