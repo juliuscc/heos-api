@@ -72,7 +72,13 @@ export class ResponseParser {
 						throw new TypeError()
 					}
 				})
-				.forEach(this.callback)
+				.forEach(response => {
+					try {
+						this.callback(response)
+					} catch (error) {
+						console.log('Error handling response')
+					}
+				})
 		} catch (error) {
 			if (error instanceof TypeError) {
 				console.log('Heos response has wrong structure. Flushing buffer.')
