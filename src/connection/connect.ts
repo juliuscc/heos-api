@@ -3,6 +3,7 @@ import { DEFAULT_PORT } from '../utils/constants'
 import { ResponseEventHandler, HeosEventEmitter } from '../listen/responseEventHandler'
 import { ResponseParser } from '../listen/responseParser'
 import { HeosConnection } from './heosConnection'
+import { HeosResponse, HeosEvent } from '../types'
 
 type HeosSocket = {
 	write: Socket['write']
@@ -32,7 +33,9 @@ function createHeosSocket(address: string, responseParser: ResponseParser): Prom
 export function connect(address: string): Promise<HeosConnection> {
 	return new Promise((resolve, reject) => {
 		const responseEventHandler = new ResponseEventHandler()
-		const responseParser = new ResponseParser(responseEventHandler.put)
+		const responseParser = new ResponseParser((message: HeosResponse | HeosEvent) =>
+			responseEventHandler.put(message)
+		)
 
 		createHeosSocket(address, responseParser)
 			.then(socket => {
