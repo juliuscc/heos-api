@@ -1,4 +1,4 @@
-import { HeosEventEmitter } from '../listen/responseEventHandler'
+import { HeosEventEmitter, HeosConnectionEventEmitter } from '../listen/responseEventHandler'
 import { HeosCommandAttribute } from '../types'
 import { generateHeosCommand } from '../write/heosCommand'
 
@@ -8,13 +8,19 @@ export class HeosConnection {
 		once: HeosEventEmitter,
 		socketWrite: (message: string) => any
 	) {
-		this.on = on
-		this.once = once
+		this.on = (event, listener) => {
+			on(event, listener)
+			return this
+		}
+		this.once = (event, listener) => {
+			once(event, listener)
+			return this
+		}
 		this.socketWrite = socketWrite
 	}
 
-	on: HeosEventEmitter
-	once: HeosEventEmitter
+	on: HeosConnectionEventEmitter
+	once: HeosConnectionEventEmitter
 	private socketWrite: (message: string) => any
 
 	write(

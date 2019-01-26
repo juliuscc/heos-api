@@ -1,6 +1,12 @@
 import { HeosResponse, HeosEvent, HeosCommand } from '../types'
 import { EventEmitter } from 'events'
 import { generateHeosCommandString } from './heosCommand'
+import { HeosConnection } from '../connection/heosConnection'
+
+export type HeosConnectionEventEmitter = (
+	event: HeosCommand,
+	listener: (message: HeosResponse | HeosEvent) => void
+) => HeosConnection
 
 export type HeosEventEmitter = (
 	event: HeosCommand,
