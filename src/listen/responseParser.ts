@@ -1,6 +1,15 @@
 import { HeosResponse, HeosEvent } from '../types'
+import { parseHeosCommandString } from './heosCommand'
 
 const messageDelimiter = '\r\n'
+
+function isCorrectResponse(response: any): boolean {
+	return (
+		response.hasOwnProperty('heos') &&
+		response.heos.hasOwnProperty('command') &&
+		typeof response.heos.command === 'string'
+	)
+}
 
 function isHeosResponse(response: any): response is HeosResponse {
 	if (response.hasOwnProperty('heos')) {
@@ -12,11 +21,21 @@ function isHeosResponse(response: any): response is HeosResponse {
 			heos.hasOwnProperty('message')
 		) {
 			if (
-				typeof heos.command === 'string' &&
+				typeof heos.command === 'object' &&
 				typeof heos.result === 'string' &&
 				typeof heos.message === 'string'
 			) {
-				return true
+				if (
+					heos.command.hasOwnProperty('commandGroup') &&
+					heos.command.hasOwnProperty('command')
+				) {
+					if (
+						typeof heos.command.commandGroup === 'string' &&
+						typeof heos.command.command === 'string'
+					) {
+						return true
+					}
+				}
 			}
 		}
 	}
@@ -28,7 +47,13 @@ function isHeosEvent(response: any): response is HeosEvent {
 		const heos: any = response.heos
 
 		if (heos.hasOwnProperty('command')) {
-			if (typeof heos.command === 'string') {
+			if (
+				typeof heos.command === 'object' &&
+				heos.command.hasOwnProperty('commandGroup') &&
+				heos.command.hasOwnProperty('command') &&
+				typeof heos.command.commandGroup === 'string' &&
+				typeof heos.command.command === 'string'
+			) {
 				if (heos.hasOwnProperty('message')) {
 					return typeof heos.message === 'string'
 				} else {
@@ -65,6 +90,18 @@ export class ResponseParser {
 			messages
 				.filter((row: string) => row.length > 0)
 				.map((message: string) => JSON.parse(message))
+				.map((response: any) => {
+					if (isCorrectResponse) {
+						return response
+					} else {
+						throw new TypeError()
+					}
+				})
+				.map(response => {
+					const command = parseHeosCommandString(response.heos.command)
+					response.heos.command = command
+					return response
+				})
 				.map((response: any) => {
 					if (isHeosResponse(response) || isHeosEvent(response)) {
 						return response

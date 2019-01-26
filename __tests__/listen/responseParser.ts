@@ -6,7 +6,7 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		const messageParser: ResponseParser = new ResponseParser(mockCallback)
 
-		messageParser.put('{"heos": {"command": "", "result": "", "message": ""}}\r\n')
+		messageParser.put('{"heos": {"command": "test/test", "result": "", "message": ""}}\r\n')
 
 		expect(mockCallback).toBeCalledTimes(1)
 	})
@@ -17,16 +17,18 @@ describe('Heos response messages can be correctly parsed', () => {
 		const messageParser: ResponseParser = new ResponseParser(mockCallback)
 
 		messageParser.put('{"he')
-		messageParser.put('os": {"command": "", "result": "", "message": ""}}\r\n')
+		messageParser.put('os": {"command": "test/test", "result": "", "message": ""}}\r\n')
 
 		expect(mockCallback).toBeCalledTimes(1)
 
 		messageParser.put(
-			'{"heos": {"command": "", "result": "", "message": ""}}\r\n{"heos": {"command": "", "result": "", "message": ""}}\r\n'
+			'{"heos": {"command": "test/test", "result": "", "message": ""}}\r\n{"heos": {"command": "test/test", "result": "", "message": ""}}\r\n'
 		)
 		expect(mockCallback).toBeCalledTimes(3)
 
-		messageParser.put('{"heos": {"command": "", "result": "", "message": ""}}\r\n{ "heos":')
+		messageParser.put(
+			'{"heos": {"command": "test/test", "result": "", "message": ""}}\r\n{ "heos":'
+		)
 		expect(mockCallback).toBeCalledTimes(4)
 	})
 
@@ -35,12 +37,15 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		const messageParser: ResponseParser = new ResponseParser(mockCallback)
 
-		const mockObject = { heos: { command: '', result: '', message: '' } }
+		const mockObject = { heos: { command: 'test/test', result: '', message: '' } }
+		const expectedObject = {
+			heos: { command: { commandGroup: 'test', command: 'test' }, result: '', message: '' }
+		}
 
 		messageParser.put(JSON.stringify(mockObject) + '\r\n')
 
 		expect(mockCallback).toBeCalledTimes(1)
-		expect(mockCallback.mock.calls[0][0]).toEqual(mockObject)
+		expect(mockCallback.mock.calls[0][0]).toEqual(expectedObject)
 	})
 
 	test('The parser returns the message as a HeosResponse', () => {
@@ -60,7 +65,10 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		expect(mockCallback.mock.calls[0][0]).toEqual({
 			heos: {
-				command: expect.any(String),
+				command: {
+					commandGroup: expect.any(String),
+					command: expect.any(String)
+				},
 				result: expect.any(String),
 				message: expect.any(String)
 			}
@@ -115,9 +123,22 @@ describe('Heos response messages can be correctly parsed', () => {
 			}
 		}
 
+		const expectedObject = {
+			heos: {
+				command: { commandGroup: 'event', command: 'sources_changed' }
+			}
+		}
+
 		const mockObject2 = {
 			heos: {
 				command: 'event/sources_changed',
+				message: 'test_message'
+			}
+		}
+
+		const expectedObject2 = {
+			heos: {
+				command: { commandGroup: 'event', command: 'sources_changed' },
 				message: 'test_message'
 			}
 		}
@@ -126,7 +147,7 @@ describe('Heos response messages can be correctly parsed', () => {
 		messageParser.put(JSON.stringify(mockObject2) + '\r\n')
 
 		expect(mockCallback).toBeCalledTimes(2)
-		expect(mockCallback.mock.calls[0][0]).toEqual(mockObject)
-		expect(mockCallback.mock.calls[1][0]).toEqual(mockObject2)
+		expect(mockCallback.mock.calls[0][0]).toEqual(expectedObject)
+		expect(mockCallback.mock.calls[1][0]).toEqual(expectedObject2)
 	})
 })
