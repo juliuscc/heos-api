@@ -1,4 +1,4 @@
-import { connect } from '../../src/connection/connection'
+import { connect } from '../../src/connection/connect'
 import net from 'net'
 
 jest.mock('net')
