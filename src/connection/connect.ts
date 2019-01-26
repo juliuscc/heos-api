@@ -5,11 +5,7 @@ import { ResponseParser } from '../listen/responseParser'
 import { HeosConnection } from './heosConnection'
 import { HeosResponse, HeosEvent } from '../types'
 
-type HeosSocket = {
-	write: Socket['write']
-}
-
-function createHeosSocket(address: string, responseParser: ResponseParser): Promise<HeosSocket> {
+function createHeosSocket(address: string, responseParser: ResponseParser): Promise<Socket> {
 	return new Promise((resolve, reject) => {
 		const host: string = address
 		const port: number = DEFAULT_PORT
@@ -23,7 +19,7 @@ function createHeosSocket(address: string, responseParser: ResponseParser): Prom
 
 			socket.write(`heos://system/register_for_change_events?enable='on'\r\n`)
 
-			resolve({ write: socket.write })
+			resolve(socket)
 		} catch (error) {
 			reject(error)
 		}
