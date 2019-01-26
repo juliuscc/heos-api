@@ -1,4 +1,3 @@
-import { Socket } from 'net'
 import { HeosEventEmitter } from './listen/responseEventHandler'
 
 export type HeosCommandAttribute = {
@@ -26,14 +25,4 @@ export type HeosResponse = {
 	}
 	payload?: object | any[]
 	options?: object
-}
-
-export type HeosConnection = {
-	write: (
-		commandGroup: string,
-		command: string,
-		attributes?: HeosCommandAttribute
-	) => HeosConnection
-	on: HeosEventEmitter
-	once: HeosEventEmitter
 }

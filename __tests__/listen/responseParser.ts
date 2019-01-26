@@ -115,9 +115,18 @@ describe('Heos response messages can be correctly parsed', () => {
 			}
 		}
 
-		messageParser.put(JSON.stringify(mockObject) + '\r\n')
+		const mockObject2 = {
+			heos: {
+				command: 'event/sources_changed',
+				message: 'test_message'
+			}
+		}
 
-		expect(mockCallback).toBeCalledTimes(1)
+		messageParser.put(JSON.stringify(mockObject) + '\r\n')
+		messageParser.put(JSON.stringify(mockObject2) + '\r\n')
+
+		expect(mockCallback).toBeCalledTimes(2)
 		expect(mockCallback.mock.calls[0][0]).toEqual(mockObject)
+		expect(mockCallback.mock.calls[1][0]).toEqual(mockObject2)
 	})
 })

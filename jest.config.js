@@ -7,13 +7,7 @@ module.exports = {
 	moduleFileExtensions: ['ts', 'tsx', 'js'],
 	coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
 	coverageThreshold: {
-		'./src/listen': {
-			branches: 70,
-			functions: 75,
-			lines: 75,
-			statements: 75
-		},
-		'./src/write': {
+		global: {
 			branches: 70,
 			functions: 75,
 			lines: 75,
