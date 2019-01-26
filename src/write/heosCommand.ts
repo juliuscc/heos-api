@@ -10,13 +10,7 @@ function attributeString(attributes?: HeosCommandAttribute): string {
 		return (
 			'?' +
 			Object.entries(attributes)
-				.map(([key, value]) => {
-					if (typeof value === 'string') {
-						return `${key}='${value}'`
-					} else {
-						return `${key}=${value.toString()}`
-					}
-				})
+				.map(([key, value]) => `${key}=${value}`)
 				.reduce((previous, current) => `${previous}&${current}`)
 		)
 	}
