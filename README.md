@@ -8,9 +8,9 @@
 
 A low level Node.js api-wrapper for communicating with heos devices. It enables developers to find, connect to, and communicate with Heos Devices.
 
--   🔎 **Discover devices:** Dead simple discovery of heos devices.
+-   🔎 **Discover devices:** Dead simple discovery of HEOS devices.
 -   🎯 **Send any command:** Send commands with a simple api.
--   🛰 **Event handling:** React to anything that happens to your heos control system, by binding any event to one or more callbacks.
+-   🛰 **Event handling:** React to anything that happens to your HEOS control system, by binding any event to one or more callbacks.
 
 ## Upgrading from 2.X.X
 
@@ -28,7 +28,7 @@ Install heos-api using `npm`:
 npm install heos-api
 ```
 
-Let's get started with connecting to a heos control system:
+Let's get started with connecting to a HEOS control system:
 
 ```js
 const heos = require('heos-api')
