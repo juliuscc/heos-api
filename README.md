@@ -219,4 +219,4 @@ Learn more about using heos-api at:
 
 ## Contributing
 
-Please send issues and pull requests with your problems or ideas.
+Please send issues and pull requests with your problems or ideas!
