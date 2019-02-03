@@ -12,24 +12,41 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
 -   🎯 **Send any command:** Send commands with a simple api.
 -   🛰 **Event handling:** React to anything that happens to your HEOS control system, by binding any event to one or more callbacks.
 
+## Table of Contents
+
+-   [Example](#Example)
+-   [Installation](#Installation)
+-   [Usage](#Usage)
+    -   [Connecting to devices](#Connecting-to-devices)
+        -   [heos.discoverDevices(timeout, onDiscover[, onTimeout])](#heosdiscoverdevicestimeout-ondiscover-ontimeout)
+        -   [heos.discoverOneDevice([timeout])](#heosdiscoveronedevicetimeout)
+        -   [heos.connect(address)](#heosconnectaddress)
+    -   [HeosConnection](#heosconnection)
+        -   [connection.write(commandGroup, command[, attributes])](#connectionwritecommandGroupcommandattributes)
+        -   [connection.on(event, listener)](#connectiononeventlistener)
+        -   [connection.once(event, listener)](#connectiononceeventlistener)
+        -   [HeosEvent and HeosResponse](#heosevent-and-heosresponse)
+-   [Documentation](#Documentation)
+-   [Contributing](#Contributing)
+
 ## Example
 
 ```js
 const heos = require('heos-api')
 
 heos.discoverOneDevice()
-  .then(address => heos.connect(address))
-  .then(connection =>
-    connection
-      .on(
-        {
-          commandGroup: 'event',
-          command: 'player_volume_changed'
-        },
-        console.log
-      )
-      .write('system', 'prettify_json_response', { enable: 'on' })
-  )
+    .then(address => heos.connect(address))
+    .then(connection =>
+        connection
+            .on(
+                {
+                    commandGroup: 'event',
+                    command: 'player_volume_changed'
+                },
+                console.log
+            )
+            .write('system', 'prettify_json_response', { enable: 'on' })
+    )
 ```
 
 ## Installation
@@ -52,7 +69,7 @@ The `heos` object has two ways of finding devices and one way to connect to a de
 -   `heos.discoverOneDevice()`
 -   `heos.connect()`
 
-#### `heos.discoverDevices(timeout, onDiscover[, onTimeout])`
+#### heos.discoverDevices(timeout, onDiscover[, onTimeout])
 
 -   `timeout`: number
 -   `onDiscover`: (address: string) => void
@@ -168,29 +185,28 @@ If you subscribe to _Unsolicited Responses_ (by sending the `system/register_for
 
 Sometimes there is no `message`.
 
-
 ```ts
 export type HeosResponse = {
-  heos: {
-    command: {
-      commandGroup: string
-      command: string
+    heos: {
+        command: {
+            commandGroup: string
+            command: string
+        }
+        result: string
+        message: string
     }
-    result: string
-    message: string
-  }
-  payload?: object | any[]
-  options?: object
+    payload?: object | any[]
+    options?: object
 }
 
 export type HeosEvent = {
-  heos: {
-    command: {
-      commandGroup: string
-      command: string
+    heos: {
+        command: {
+            commandGroup: string
+            command: string
+        }
+        message?: string
     }
-    message?: string
-  }
 }
 ```
 
