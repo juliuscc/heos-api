@@ -14,10 +14,10 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
 
 ## Table of Contents
 
--   [Example](#Example)
--   [Installation](#Installation)
--   [Usage](#Usage)
-    -   [Connecting to devices](#Connecting-to-devices)
+-   [Example](#example)
+-   [Installation](#installation)
+-   [Usage](#usage)
+    -   [Connecting to devices](#connecting-to-devices)
         -   [heos.discoverDevices(timeout, onDiscover[, onTimeout])](#heosdiscoverdevicestimeout-ondiscover-ontimeout)
         -   [heos.discoverOneDevice([timeout])](#heosdiscoveronedevicetimeout)
         -   [heos.connect(address)](#heosconnectaddress)
@@ -26,8 +26,8 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
         -   [connection.on(event, listener)](#connectiononeventlistener)
         -   [connection.once(event, listener)](#connectiononceeventlistener)
         -   [HeosEvent and HeosResponse](#heosevent-and-heosresponse)
--   [Documentation](#Documentation)
--   [Contributing](#Contributing)
+-   [Documentation](#documentation)
+-   [Contributing](#contributing)
 
 ## Example
 
