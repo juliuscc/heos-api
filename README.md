@@ -25,6 +25,7 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
         -   [connection.write(commandGroup, command[, attributes])](#connectionwritecommandgroup-command-attributes)
         -   [connection.on(event, listener)](#connectiononevent-listener)
         -   [connection.once(event, listener)](#connectiononceevent-listener)
+        -   [connection.onAll(listener)](#connectiononall-listener)
         -   [HeosEvent and HeosResponse](#heosevent-and-heosresponse)
 -   [Documentation](#documentation)
 -   [Contributing](#contributing)
@@ -149,6 +150,12 @@ connection.on({ commandGroup: 'event', command: 'player_volume_changed' }, conso
 -   `listener`: (message: [HeosEvent](#HeosEvent-and-HeosResponse) | [HeosResponse](#HeosEvent-and-HeosResponse)) => void
 
 Exactly like [`connection.on()`](<#connection.on(event,-listener)>) but will only trigger the listener the first time the event happens.
+
+#### connection.onAll(listener)
+
+-   `listener`: (message: [HeosEvent](#HeosEvent-and-HeosResponse) | [HeosResponse](#HeosEvent-and-HeosResponse)) => void
+
+Exactly like [`connection.on()`](<#connection.on(event,-listener)>) but will trigger the listener for every response or event. It is useful for logging or debugging purposes. These listeners are triggered before any other as they can be useful for understanding why other listeners might be faulty.
 
 #### HeosEvent and HeosResponse
 

@@ -1,6 +1,10 @@
 import { createConnection, Socket } from 'net'
 import { DEFAULT_PORT } from '../utils/constants'
-import { ResponseEventHandler, HeosEventEmitter } from '../listen/responseEventHandler'
+import {
+	ResponseEventHandler,
+	HeosEventEmitter,
+	HeosAllEventEmitter
+} from '../listen/responseEventHandler'
 import { ResponseParser } from '../listen/responseParser'
 import { HeosConnection } from './heosConnection'
 import { HeosResponse, HeosEvent } from '../types'
@@ -41,7 +45,9 @@ export function connect(address: string): Promise<HeosConnection> {
 				const once: HeosEventEmitter = (event, listener) =>
 					responseEventHandler.once(event, listener)
 
-				const connection = new HeosConnection(on, once, (message: string) =>
+				const onAll: HeosAllEventEmitter = listener => responseEventHandler.onAll(listener)
+
+				const connection = new HeosConnection(on, once, onAll, (message: string) =>
 					socket.write(message)
 				)
 

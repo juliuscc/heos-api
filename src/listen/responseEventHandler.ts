@@ -3,10 +3,18 @@ import { EventEmitter } from 'events'
 import { generateHeosCommandString } from './heosCommand'
 import { HeosConnection } from '../connection/heosConnection'
 
+export type HeosConnectionAllEventEmitter = (
+	listener: (message: HeosResponse | HeosEvent) => void
+) => HeosConnection
+
 export type HeosConnectionEventEmitter = (
 	event: HeosCommand,
 	listener: (message: HeosResponse | HeosEvent) => void
 ) => HeosConnection
+
+export type HeosAllEventEmitter = (
+	listener: (message: HeosResponse | HeosEvent) => void
+) => ResponseEventHandler
 
 export type HeosEventEmitter = (
 	event: HeosCommand,
@@ -16,12 +24,15 @@ export type HeosEventEmitter = (
 export class ResponseEventHandler {
 	constructor() {
 		this.emitter = new EventEmitter()
+		this.listenersOnAll = []
 	}
 
 	emitter: EventEmitter
+	listenersOnAll: ((message: HeosResponse | HeosEvent) => void)[]
 
 	put(message: HeosResponse | HeosEvent): void {
 		const eventString = generateHeosCommandString(message.heos.command)
+		this.listenersOnAll.forEach(listener => listener(message))
 		this.emitter.emit(eventString, message)
 	}
 
@@ -40,6 +51,11 @@ export class ResponseEventHandler {
 	): ResponseEventHandler {
 		const eventString = generateHeosCommandString(event)
 		this.emitter.once(eventString, listener)
+		return this
+	}
+
+	onAll(listener: (message: HeosResponse | HeosEvent) => void): ResponseEventHandler {
+		this.listenersOnAll = [...this.listenersOnAll, listener]
 		return this
 	}
 }
