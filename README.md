@@ -25,7 +25,7 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
         -   [connection.write(commandGroup, command[, attributes])](#connectionwritecommandgroup-command-attributes)
         -   [connection.on(event, listener)](#connectiononevent-listener)
         -   [connection.once(event, listener)](#connectiononceevent-listener)
-        -   [connection.onAll(listener)](#connectiononall-listener)
+        -   [connection.onAll(listener)](#connectiononalllistener)
         -   [HeosEvent and HeosResponse](#heosevent-and-heosresponse)
 -   [Documentation](#documentation)
 -   [Contributing](#contributing)
