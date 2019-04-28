@@ -26,3 +26,7 @@ export type HeosResponse = {
 	payload?: object | any[]
 	options?: object
 }
+
+export interface HeosEventListener {
+	(message: HeosResponse | HeosEvent): void
+}
