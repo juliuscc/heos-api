@@ -1,4 +1,6 @@
 import { createSocket } from 'dgram'
+import { connect } from './connect'
+import { HeosConnection } from './heosConnection'
 
 const searchTargetName = 'urn:schemas-denon-com:device:ACT-Denon:1'
 
@@ -85,5 +87,19 @@ export function discoverOneDevice(timeout: number = defaultTimeout): Promise<str
 		}
 
 		const quit = discoverDevices(timeout, onDiscover, onTimeout)
+	})
+}
+
+/**
+ * Finds one HEOS device in the network, and connects to it.
+ * @param timeout Will stop searching for a HEOS device when `timeout` milliseconds has ellapsed.
+ * @returns A promise that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with a HeosConnection.
+ */
+export function discoverAndConnect(timeout: number = defaultTimeout): Promise<HeosConnection> {
+	return new Promise((resolve, reject) => {
+		discoverOneDevice(timeout)
+			.then(connect)
+			.then(resolve)
+			.catch(reject)
 	})
 }

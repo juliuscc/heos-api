@@ -98,13 +98,24 @@ heos.discoverOneDevice().then(console.log)
 // Logs out the address of a HEOS device
 ```
 
+#### heos.discoverAndConnect([timeout])
+
+-   `timeout`: number
+
+Finds one HEOS device in the network, and connects to it. A promise is returned that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with a HeosConnection.
+
+```js
+heos.discoverAndConnect().then(console.log)
+// Logs out the HeosConnection object
+```
+
 #### heos.connect(address)
 
 -   `address`: string
 
 Establishes a connection with a HEOS device, and will return a promise. The promise resolves with a [HeosConnection](#HeosConnection) that can be used to communicate with a HEOS device.
 
-Use this function when you know the address of a HEOS device. It is recommended to use `heos.discoverOneDevice()` to find out an address.
+Use this function when you know the address of a HEOS device. It is recommended to use `heos.discoverOneDevice()` to find out an address, or simply use `heos.discoverAndConnect()`.
 
 ```js
 heos.discoverOneDevice().then(address => heos.connect(address))
