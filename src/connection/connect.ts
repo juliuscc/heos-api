@@ -21,8 +21,6 @@ function createHeosSocket(address: string, responseParser: ResponseParser): Prom
 
 			socket.on('timeout', reject)
 
-			socket.write(`heos://system/register_for_change_events?enable='on'\r\n`)
-
 			resolve(socket)
 		} catch (error) {
 			reject(error)
