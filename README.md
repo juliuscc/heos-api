@@ -20,6 +20,7 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
     -   [Connecting to devices](#connecting-to-devices)
         -   [heos.discoverDevices(timeout, onDiscover[, onTimeout])](#heosdiscoverdevicestimeout-ondiscover-ontimeout)
         -   [heos.discoverOneDevice([timeout])](#heosdiscoveronedevicetimeout)
+        -   [heos.discoverAndConnect([timeout])](#heosdiscoverandconnecttimeout)
         -   [heos.connect(address)](#heosconnectaddress)
     -   [HeosConnection](#heosconnection)
         -   [connection.write(commandGroup, command[, attributes])](#connectionwritecommandgroup-command-attributes)
@@ -35,19 +36,20 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
 ```js
 const heos = require('heos-api')
 
-heos.discoverOneDevice()
-    .then(address => heos.connect(address))
-    .then(connection =>
-        connection
-            .on(
-                {
-                    commandGroup: 'event',
-                    command: 'player_volume_changed'
-                },
-                console.log
-            )
-            .write('system', 'prettify_json_response', { enable: 'on' })
-    )
+heos.discoverAndConnect().then(connection =>
+    connection
+        .onAll(saveToLog)
+        .on(
+            {
+                commandGroup: 'event',
+                command: 'player_volume_changed'
+            },
+            console.log
+        )
+        .write('system', 'prettify_json_response', { enable: 'on' })
+        .write('system', 'heart_beat')
+        .write('player', 'set_volume', { pid: 1, level: 20 })
+)
 ```
 
 ## Installation
