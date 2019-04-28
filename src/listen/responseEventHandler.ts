@@ -7,11 +7,20 @@ export type HeosConnectionAllEventEmitter = (
 	listener: (message: HeosResponse | HeosEvent) => void
 ) => HeosConnection
 
+/**
+ * @param event The event to trigger the listener on.
+ * @param listener A callback function that will be triggered when the event happens.
+ * @returns A HeosConnection
+ */
 export type HeosConnectionEventEmitter = (
 	event: HeosCommand,
 	listener: (message: HeosResponse | HeosEvent) => void
 ) => HeosConnection
 
+/**
+ * @param event The event to trigger the listener on.
+ * @returns A HeosConnection
+ */
 export type HeosAllEventEmitter = (
 	listener: (message: HeosResponse | HeosEvent) => void
 ) => ResponseEventHandler

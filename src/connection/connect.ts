@@ -30,6 +30,11 @@ function createHeosSocket(address: string, responseParser: ResponseParser): Prom
 	})
 }
 
+/**
+ * Establishes a connection with a HEOS device. Use this function when you know the address of a HEOS device. It is recommended to use `hoes.discoverOneDevice()` to find an address.
+ * @param address The address of the host (HEOS device) to create a connection to.
+ * @returns A promise that resolves with a HeosConnection that can be used to communicate with a HEOS device.
+ */
 export function connect(address: string): Promise<HeosConnection> {
 	return new Promise((resolve, reject) => {
 		const responseEventHandler = new ResponseEventHandler()
