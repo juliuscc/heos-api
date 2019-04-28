@@ -47,7 +47,7 @@ export class HeosConnection {
 	on: HeosConnectionEventEmitter
 
 	/**
-	 * Adds a *one-time* listener for an event. When the event happens the listener will be triggered with the response.
+	 * Adds a **one-time** listener for an event. When the event happens the listener will be triggered with the response.
 	 * @param event The event to trigger the listener on.
 	 * @param listener A callback function that will be triggered when the event happens.
 	 * @returns A HeosConnection
