@@ -22,9 +22,9 @@ const defaultTimeout = 5000
 
 /**
  * Tries to discover all available HEOS devices in the network.
- * @param timeout Will stop searching for HEOS devices when timeout has ellapsed.
+ * @param timeout Will stop searching for HEOS devices when `timeout` milliseconds has ellapsed.
  * @param onDiscover Will trigger every time a HEOS device is discovered.
- * @param onTimeout Will trigger when timeot has ellapsed.
+ * @param onTimeout Will trigger when `timeout` has ellapsed.
  */
 export function discoverDevices(
 	timeout: number = defaultTimeout,
@@ -61,8 +61,8 @@ export function discoverDevices(
 
 /**
  * Finds one HEOS device in the network.
- * @param timeout Will stop searching for a HEOS device when timeout has ellapsed.
- * @returns A promise that will resolve when the first device is found, or reject if no devices are found before timeout milliseconds have passed. If the function resolves it will resolve with the address of the HEOS device found.
+ * @param timeout Will stop searching for a HEOS device when `timeout` milliseconds has ellapsed.
+ * @returns A promise that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with the address of the HEOS device found.
  */
 export function discoverOneDevice(timeout: number = defaultTimeout): Promise<string> {
 	return new Promise((resolve, reject) => {
