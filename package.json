@@ -1,7 +1,7 @@
 {
 	"name": "heos-api",
 	"version": "0.0.0-semantically-released",
-	"description": "A low level api-wrapper for communicating with heos devices",
+	"description": "A zero-dependency low level api-wrapper for communicating with heos devices",
 	"keywords": [
 		"heos",
 		"denon-heos",
