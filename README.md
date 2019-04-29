@@ -10,6 +10,7 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
 
 -   🔎 **Discover devices:** Dead simple discovery of HEOS devices.
 -   🎯 **Send any command:** Send commands with a simple api.
+-   🚫 **Zero dependency:** Don't worry about any `left-pad` or `event-stream` vulnerabilities, with this zero-dependency library.
 -   🛰 **Event handling:** React to anything that happens to your HEOS control system, by binding any event to one or more callbacks.
 
 ## Table of Contents
