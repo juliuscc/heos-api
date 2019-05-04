@@ -8,6 +8,8 @@
 
 A low level Node.js api-wrapper for communicating with HEOS devices. It enables developers to find, connect to, and communicate with HEOS devices.
 
+## Features
+
 -   🔎 **Discover devices:** Dead simple discovery of HEOS devices.
 -   🎯 **Send any command:** Send commands with a simple api.
 -   🛰 **Event handling:** React to anything that happens to your HEOS control system, by binding any event to one or more callbacks.
