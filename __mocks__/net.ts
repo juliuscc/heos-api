@@ -33,8 +33,8 @@ export function __setOn(newOn: any) {
 	on = newOn
 }
 
-export function createConnection(_port: number, _host: string) {
-	return { write: () => {}, on }
+export function createConnection(_options: object, callback: Function) {
+	callback({ write: () => {}, on })
 }
 
 const net = { createConnection, __setOn, __setOnData, __setOnError }

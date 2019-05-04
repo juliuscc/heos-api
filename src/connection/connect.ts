@@ -15,13 +15,13 @@ function createHeosSocket(address: string, responseParser: ResponseParser): Prom
 		const port: number = DEFAULT_PORT
 
 		try {
-			const socket: Socket = createConnection(port, host)
+			const socket: Socket = createConnection({ port, host }, () => {
+				resolve(socket)
+			})
 
 			socket.on('data', (data: string) => responseParser.put(data))
-
 			socket.on('timeout', reject)
-
-			resolve(socket)
+			socket.on('error', reject)
 		} catch (error) {
 			reject(error)
 		}
