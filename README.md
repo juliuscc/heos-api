@@ -1,12 +1,12 @@
 # heos-api
 
-A low level Node.js api-wrapper for communicating with HEOS devices. It enables developers to find, connect to, and communicate with HEOS devices.
-
 [![npm](https://img.shields.io/npm/v/heos-api.svg?style=flat-square)](https://www.npmjs.com/package/heos-api)
 [![npm](https://img.shields.io/npm/dm/heos-api.svg?style=flat-square)](https://www.npmjs.com/package/heos-api)
 [![license](https://img.shields.io/github/license/juliuscc/heos-api.svg?style=flat-square)](https://github.com/juliuscc/heos-api/blob/master/LICENSE)
 [![Coverage Status](https://img.shields.io/coveralls/github/juliuscc/heos-api.svg?style=flat-square)](https://coveralls.io/github/juliuscc/heos-api?branch=master)
 [![Travis](https://img.shields.io/travis/juliuscc/heos-api/master.svg?style=flat-square)](https://travis-ci.org/juliuscc/heos-api)
+
+A low level Node.js api-wrapper for communicating with HEOS devices. It enables developers to find, connect to, and communicate with HEOS devices.
 
 ## Features
 
