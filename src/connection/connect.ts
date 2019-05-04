@@ -15,7 +15,7 @@ function createHeosSocket(address: string, responseParser: ResponseParser): Prom
 		const port: number = DEFAULT_PORT
 
 		try {
-			const socket: Socket = createConnection({ port, host }, () => {
+			const socket: Socket = createConnection({ port, host, localPort: 0 }, () => {
 				resolve(socket)
 			})
 
