@@ -14,7 +14,7 @@ A low level Node.js api-wrapper for communicating with HEOS devices. It enables 
 -   🎯 **Send any command:** Send commands with a simple api.
 -   🛰 **Event handling:** React to anything that happens to your HEOS control system, by binding any event to one or more callbacks.
 -   🚫 **Zero dependency:** Don't worry about any `left-pad` or `event-stream` vulnerabilities, with this zero-dependency library.
--   ✨ **Intellisense:** With the library being written in TypeScript, it provides really nice intellisense suggestions.
+-   ✨ **Intellisense:** Really nice intellisense suggestions.
 
 ## Table of Contents
 
