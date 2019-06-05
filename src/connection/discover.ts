@@ -36,7 +36,9 @@ export function discoverDevices(
 	const socket = createSocket('udp4')
 	socket.bind()
 
-	socket.send(message, 1900, '239.255.255.250')
+	socket.on('listening', () => {
+		socket.send(message, 1900, '239.255.255.250')
+	})
 
 	let addresses: string[] = []
 
