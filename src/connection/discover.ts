@@ -34,7 +34,7 @@ export function discoverDevices(
 	onTimeout?: (addresses: string[]) => void
 ): () => void {
 	const socket = createSocket('udp4')
-	socket.bind(1900)
+	socket.bind()
 
 	socket.send(message, 1900, '239.255.255.250')
 
