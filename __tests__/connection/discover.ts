@@ -11,6 +11,11 @@ describe('discoverOneDevice()', () => {
 		return expect(discoverOneDevice()).resolves.toEqual('192.168.0.5')
 	})
 
+	test('One device can be discovered with options', () => {
+		expect.assertions(1)
+		return expect(discoverOneDevice(10, {bindOptions: {address: '192.168.0.1'}})).resolves.toEqual('192.168.0.5')
+	})
+
 	test('Discover fails when no devices are found', () => {
 		expect.assertions(1)
 		// @ts-ignore
