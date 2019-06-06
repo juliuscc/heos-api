@@ -21,10 +21,9 @@ type RInfo = {
 }
 
 export type DiscoverOptions = {
-	bindOptions?: {
-		port?: number
-		address?: string
-	}
+	timeout?: number
+	port?: number
+	address?: string
 }
 
 const defaultTimeout = 5000
@@ -37,11 +36,12 @@ const defaultTimeout = 5000
  * @param options Options for discovering devices.
  */
 export function discoverDevices(
-	timeout: number = defaultTimeout,
 	onDiscover: (address: string) => void,
 	onTimeout?: (addresses: string[]) => void,
 	options?: DiscoverOptions
 ): () => void {
+	const timeout: number = options.timeout || defaultTimeout
+	
 	const socket = createSocket('udp4')
 	options && options.bindOptions ? socket.bind(options.bindOptions as BindOptions) : socket.bind()
 
@@ -79,7 +79,6 @@ export function discoverDevices(
  * @returns A promise that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with the address of the HEOS device found.
  */
 export function discoverOneDevice(
-	timeout: number = defaultTimeout,
 	options?: DiscoverOptions
 ): Promise<string> {
 	return new Promise((resolve, reject) => {
@@ -101,7 +100,7 @@ export function discoverOneDevice(
 			}
 		}
 
-		const quit = discoverDevices(timeout, onDiscover, onTimeout, options)
+		const quit = discoverDevices(onDiscover, onTimeout, options)
 	})
 }
 
@@ -112,11 +111,10 @@ export function discoverOneDevice(
  * @returns A promise that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with a HeosConnection.
  */
 export function discoverAndConnect(
-	timeout: number = defaultTimeout,
 	options?: DiscoverOptions
 ): Promise<HeosConnection> {
 	return new Promise((resolve, reject) => {
-		discoverOneDevice(timeout, options)
+		discoverOneDevice(options)
 			.then(connect)
 			.then(resolve)
 			.catch(reject)
