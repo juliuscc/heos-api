@@ -40,7 +40,7 @@ export function discoverDevices(
 	onTimeout?: (addresses: string[]) => void,
 	options?: DiscoverOptions
 ): () => void {
-	const timeout: number = options.timeout || defaultTimeout
+	const timeout: number = (options && options.timeout) || defaultTimeout
 	
 	const socket = createSocket('udp4')
 	options && options.bindOptions ? socket.bind(options.bindOptions as BindOptions) : socket.bind()
