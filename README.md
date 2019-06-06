@@ -76,28 +76,26 @@ The `heos` object has two ways of finding devices and one way to connect to a de
 -   `heos.discoverOneDevice()`
 -   `heos.connect()`
 
-#### heos.discoverDevices(timeout, onDiscover[, onTimeout, options])
+#### heos.discoverDevices(onDiscover[, onTimeout, options])
 
--   `timeout`: number
 -   `onDiscover`: (address: string) => void
 -   `onTimeout`: (addresses: string[]) => void
--   `options`: {bindOptions: {port: number, address: string}}
+-   `options`: { timeout?: number, port?: number, address?: string }
 
-Tries to discover all available HEOS devices in the network. When `timeout` milliseconds have passed the search will end. Every time a HEOS device is discovered `onDiscover(address)` will be triggered, where `address` is the ip-address of the device found. When the search ends `onTimeout(addresses[])` will be triggered with an array with all the devices found. Optional discover settings can be set by `options`, namely `bindOptions.port` and `bindOptions.address` for connecting to a network interface.
+Tries to discover all available HEOS devices in the network. When `timeout` milliseconds have passed the search will end. Every time a HEOS device is discovered `onDiscover(address)` will be triggered, where `address` is the ip-address of the device found. When the search ends `onTimeout(addresses[])` will be triggered with an array with all the devices found. Optional discover settings can be set by `options`, namely `port` and `address` for connecting to a network interface.
 
 The function does not return a value.
 
 ```js
-heos.discoverDevices(5000, console.log)
-// Logs out the addresses of every HEOS device in the network
+heos.discoverDevices(console.log, () => {}, { timeout: 3000 })
+// Logs out the addresses of every HEOS device in the network, and will end search after 3 seconds
 ```
 
-#### heos.discoverOneDevice([timeout, options])
+#### heos.discoverOneDevice([options])
 
--   `timeout`: number
--   `options`: {bindOptions: {port: number, address: string}}
+-   `options`: { timeout?: number, port?: number, address?: string }
 
-Finds one HEOS device in the network. A promise is returned that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with the address of the HEOS device found. Optional discover settings can be set by `options`, namely `bindOptions.port` and `bindOptions.address` for connecting to a network interface.
+Finds one HEOS device in the network. A promise is returned that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with the address of the HEOS device found. Optional discover settings can be set by `options`, namely `port` and `address` for connecting to a network interface.
 
 `heos.discoverDevices()` is used under the hood
 
@@ -106,12 +104,11 @@ heos.discoverOneDevice().then(console.log)
 // Logs out the address of a HEOS device
 ```
 
-#### heos.discoverAndConnect([timeout, options])
+#### heos.discoverAndConnect([options])
 
--   `timeout`: number
 -   `options`: {bindOptions: {port: number, address: string}}
 
-Finds one HEOS device in the network, and connects to it. A promise is returned that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with a HeosConnection. Optional discover settings can be set by `options`, namely `bindOptions.port` and `bindOptions.address` for connecting to a network interface.
+Finds one HEOS device in the network, and connects to it. A promise is returned that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with a HeosConnection. Optional discover settings can be set by `options`, namely `port` and `address` for connecting to a network interface.
 
 ```js
 heos.discoverAndConnect().then(console.log)

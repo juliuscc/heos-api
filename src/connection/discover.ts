@@ -1,4 +1,4 @@
-import { BindOptions, createSocket } from 'dgram'
+import { createSocket } from 'dgram'
 import { connect } from './connect'
 import { HeosConnection } from './heosConnection'
 
@@ -30,7 +30,6 @@ const defaultTimeout = 5000
 
 /**
  * Tries to discover all available HEOS devices in the network.
- * @param timeout Will stop searching for HEOS devices when `timeout` milliseconds has ellapsed.
  * @param onDiscover Will trigger every time a HEOS device is discovered.
  * @param onTimeout Will trigger when `timeout` has ellapsed.
  * @param options Options for discovering devices.
@@ -41,9 +40,15 @@ export function discoverDevices(
 	options?: DiscoverOptions
 ): () => void {
 	const timeout: number = (options && options.timeout) || defaultTimeout
-	
+
 	const socket = createSocket('udp4')
-	options && options.bindOptions ? socket.bind(options.bindOptions as BindOptions) : socket.bind()
+
+	if (options) {
+		const { port, address } = options
+		socket.bind(port, address)
+	} else {
+		socket.bind()
+	}
 
 	socket.on('listening', () => {
 		socket.send(message, 1900, '239.255.255.250')
@@ -74,13 +79,10 @@ export function discoverDevices(
 
 /**
  * Finds one HEOS device in the network.
- * @param timeout Will stop searching for a HEOS device when `timeout` milliseconds has ellapsed.
  * @param options Options for discovering a device.
  * @returns A promise that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with the address of the HEOS device found.
  */
-export function discoverOneDevice(
-	options?: DiscoverOptions
-): Promise<string> {
+export function discoverOneDevice(options?: DiscoverOptions): Promise<string> {
 	return new Promise((resolve, reject) => {
 		let oneDiscovered: boolean = false
 
@@ -106,13 +108,10 @@ export function discoverOneDevice(
 
 /**
  * Finds one HEOS device in the network, and connects to it.
- * @param timeout Will stop searching for a HEOS device when `timeout` milliseconds has ellapsed.
  * @param options Options for discovering a device.
  * @returns A promise that will resolve when the first device is found, or reject if no devices are found before `timeout` milliseconds have passed. If the function resolves it will resolve with a HeosConnection.
  */
-export function discoverAndConnect(
-	options?: DiscoverOptions
-): Promise<HeosConnection> {
+export function discoverAndConnect(options?: DiscoverOptions): Promise<HeosConnection> {
 	return new Promise((resolve, reject) => {
 		discoverOneDevice(options)
 			.then(connect)
