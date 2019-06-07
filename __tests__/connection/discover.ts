@@ -11,12 +11,19 @@ describe('discoverOneDevice()', () => {
 		return expect(discoverOneDevice()).resolves.toEqual('192.168.0.5')
 	})
 
+	test('One device can be discovered with options', () => {
+		expect.assertions(1)
+		return expect(discoverOneDevice({ address: '192.168.0.1', timeout: 10 })).resolves.toEqual(
+			'192.168.0.5'
+		)
+	})
+
 	test('Discover fails when no devices are found', () => {
 		expect.assertions(1)
 		// @ts-ignore
 		dgram.__setOn(() => {})
 
-		return expect(discoverOneDevice(10)).rejects.toEqual('No devices found')
+		return expect(discoverOneDevice({ timeout: 10 })).rejects.toEqual('No devices found')
 	})
 
 	test('discoverOneDevice only returns one address even if multiple devices are found', () => {
