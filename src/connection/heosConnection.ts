@@ -6,6 +6,7 @@ import {
 } from '../listen/responseEventHandler'
 import { generateHeosCommand } from '../write/heosCommand'
 import { HeosCommandAttribute } from '../types'
+import { Socket } from 'net'
 
 /**
  * An object representing a connection with a HEOS device, and provides methods to communicate with the connected HEOS device.
@@ -16,27 +17,40 @@ export class HeosConnection {
 		on: HeosEventEmitter,
 		once: HeosEventEmitter,
 		onAll: HeosAllEventEmitter,
-		socketWrite: (message: string) => any
+		socket: Socket
 	) {
 		this.on = (event, listener) => {
-			on(event, listener)
+			if (this.closed) {
+				console.warn('You are trying to add an event listener to a closed HeosConnection.')
+			} else {
+				on(event, listener)
+			}
 			return this
 		}
 
 		this.once = (event, listener) => {
-			once(event, listener)
+			if (this.closed) {
+				console.warn('You are trying to add an event listener to a closed HeosConnection.')
+			} else {
+				once(event, listener)
+			}
 			return this
 		}
 
 		this.onAll = listener => {
-			onAll(listener)
+			if (this.closed) {
+				console.warn('You are trying to add an event listener to a closed HeosConnection.')
+			} else {
+				onAll(listener)
+			}
 			return this
 		}
 
-		this.socketWrite = socketWrite
+		this.socket = socket
 	}
 
-	private socketWrite: (message: string) => any
+	private socket: Socket
+	private closed: boolean = false
 
 	/**
 	 * Adds listener to events. When the event happens the listener will be triggered with the response.
@@ -73,7 +87,22 @@ export class HeosConnection {
 		command: string,
 		attributes?: HeosCommandAttribute
 	): HeosConnection {
-		this.socketWrite(generateHeosCommand(commandGroup, command, attributes))
+		if (this.closed) {
+			console.warn('You are trying to write to a closed HeosConnection.')
+		} else {
+			this.socket.write(generateHeosCommand(commandGroup, command, attributes))
+		}
 		return this
+	}
+
+	/**
+	 * Closes the HeosConnection. It is still possible that the connected HEOS Device will send messages after calling this command.
+	 * @returns A promise that resolves when the connection is finished. No messages will be sent from the HEOS Device after the promise is resolved.
+	 */
+	close(): Promise<void> {
+		this.closed = true
+		return new Promise(resolve => {
+			this.socket.end('', undefined, resolve)
+		})
 	}
 }

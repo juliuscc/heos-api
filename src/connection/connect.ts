@@ -20,8 +20,8 @@ function createHeosSocket(address: string, responseParser: ResponseParser): Prom
 			})
 
 			socket.on('data', (data: string) => responseParser.put(data))
-			socket.on('timeout', reject)
-			socket.on('error', reject)
+			socket.on('timeout', () => socket.end())
+			socket.on('error', console.error)
 		} catch (error) {
 			reject(error)
 		}
@@ -50,9 +50,7 @@ export function connect(address: string): Promise<HeosConnection> {
 
 				const onAll: HeosAllEventEmitter = listener => responseEventHandler.onAll(listener)
 
-				const connection = new HeosConnection(on, once, onAll, (message: string) =>
-					socket.write(message)
-				)
+				const connection = new HeosConnection(on, once, onAll, socket)
 
 				resolve(connection)
 			})
