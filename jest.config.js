@@ -6,13 +6,5 @@ module.exports = {
 	testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
 	moduleFileExtensions: ['ts', 'tsx', 'js'],
 	coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
-	coverageThreshold: {
-		global: {
-			branches: 70,
-			functions: 70,
-			lines: 75,
-			statements: 75
-		}
-	},
 	collectCoverageFrom: ['src/*/**.{js,ts}']
 }
