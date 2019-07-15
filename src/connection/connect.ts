@@ -10,18 +10,34 @@ import { HeosConnection } from './heosConnection'
 import { HeosResponse, HeosEvent } from '../types'
 
 function createHeosSocket(address: string, responseParser: ResponseParser): Promise<Socket> {
+	let hasResolvedOrRejected: boolean = false
+
 	return new Promise((resolve, reject) => {
 		const host: string = address
 		const port: number = DEFAULT_PORT
 
 		try {
 			const socket: Socket = createConnection({ port, host, localPort: 0 }, () => {
+				hasResolvedOrRejected = true
 				resolve(socket)
 			})
 
 			socket.on('data', (data: string) => responseParser.put(data))
-			socket.on('timeout', () => socket.end())
-			socket.on('error', console.error)
+			socket.on('timeout', () => {
+				if (!hasResolvedOrRejected) {
+					socket.end()
+					hasResolvedOrRejected = true
+					reject(new Error('Socket timeout'))
+				}
+			})
+			socket.on('error', error => {
+				if (!hasResolvedOrRejected) {
+					hasResolvedOrRejected = true
+					reject(error)
+				} else {
+					console.error(error)
+				}
+			})
 		} catch (error) {
 			reject(error)
 		}
