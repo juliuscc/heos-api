@@ -31,6 +31,8 @@ A zero-dependency low level Node.js api-wrapper for communicating with HEOS devi
         -   [connection.on(event, listener)](#connectiononevent-listener)
         -   [connection.once(event, listener)](#connectiononceevent-listener)
         -   [connection.onAll(listener)](#connectiononalllistener)
+        -   [connection.onClose(listener)](#connectiononcloselistener)
+        -   [connection.onError(listener)](#connectiononerrorlistener)
         -   [HeosEvent and HeosResponse](#heosevent-and-heosresponse)
 -   [Documentation](#documentation)
 -   [Contributing](#contributing)
@@ -173,6 +175,34 @@ Exactly like [`connection.on()`](<#connection.on(event,-listener)>) but will onl
 -   `listener`: (message: [HeosEvent](#HeosEvent-and-HeosResponse) | [HeosResponse](#HeosEvent-and-HeosResponse)) => void
 
 Exactly like [`connection.on()`](<#connection.on(event,-listener)>) but will trigger the listener for every response or event. It is useful for logging or debugging purposes. These listeners are triggered before any other as they can be useful for understanding why other listeners might be faulty.
+
+#### connection.onClose(listener)
+
+-   `listener`: (hadError: boolean) => void
+
+Adds an event listener for when the connection is closed. `hadError` is true if there was a transmission error.
+
+```js
+connection.onClose(hadError => {
+    if (hadError) {
+        console.error('There was a transmission error and the connection closed.')
+    } else {
+        console.log('Connection closed')
+    }
+})
+```
+
+#### connection.onError(listener)
+
+-   `listener`: (error: Error) => void
+
+Adds an event listener for when an error occurs.
+
+```js
+connection.onError(error => {
+    console.error(error)
+})
+```
 
 #### HeosEvent and HeosResponse
 

@@ -105,4 +105,24 @@ export class HeosConnection {
 			this.socket.end('', undefined, resolve)
 		})
 	}
+
+	/**
+	 * Adds an event listener for when the connection is closed
+	 * @param listener A callback that is called when the connection is closed. `hadError` is true if there was a transmission error.
+	 */
+	onClose(listener: (hadError: boolean) => void): HeosConnection {
+		this.closed = true
+		this.socket.on('close', listener)
+		return this
+	}
+
+	/**
+	 * Adds an event listener for when an error occurs.
+	 * @param listener A callback thar is called when an error occurs.
+	 */
+	onError(listener: (error: Error) => void): HeosConnection {
+		this.closed = true
+		this.socket.on('error', listener)
+		return this
+	}
 }
