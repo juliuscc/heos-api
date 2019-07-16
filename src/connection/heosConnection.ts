@@ -111,7 +111,6 @@ export class HeosConnection {
 	 * @param listener A callback that is called when the connection is closed. `hadError` is true if there was a transmission error.
 	 */
 	onClose(listener: (hadError: boolean) => void): HeosConnection {
-		this.closed = true
 		this.socket.on('close', listener)
 		return this
 	}
@@ -121,7 +120,6 @@ export class HeosConnection {
 	 * @param listener A callback thar is called when an error occurs.
 	 */
 	onError(listener: (error: Error) => void): HeosConnection {
-		this.closed = true
 		this.socket.on('error', listener)
 		return this
 	}
