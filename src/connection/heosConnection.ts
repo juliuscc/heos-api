@@ -47,6 +47,10 @@ export class HeosConnection {
 		}
 
 		this.socket = socket
+
+		this.socket.on('timeout', () => {
+			return this.close()
+		})
 	}
 
 	private socket: Socket
@@ -121,6 +125,15 @@ export class HeosConnection {
 	 */
 	onError(listener: (error: Error) => void): HeosConnection {
 		this.socket.on('error', listener)
+		return this
+	}
+
+	/**
+	 * Adds an event listener for when the socket times out from inactivity. The connection is automatically closed when a timeout occurrs.
+	 * @param listener A callback thar is called when the socket times out from inactivity.
+	 */
+	onTimeout(listener: () => void): HeosConnection {
+		this.socket.on('timeout', listener)
 		return this
 	}
 }

@@ -204,6 +204,18 @@ connection.onError(error => {
 })
 ```
 
+#### connection.onTimeout(listener)
+
+-   `listener`: () => void
+
+Adds an event listener for when the socket times out from inactivity. The connection is automatically closed when a timeout occurrs.
+
+```js
+connection.onTimeout(() => {
+    console.log('A timeout occurred.')
+})
+```
+
 #### HeosEvent and HeosResponse
 
 The responses to commands are objects like this example:
