@@ -67,4 +67,8 @@ describe('discoverOneDevice()', () => {
 			expect(address).not.toBe('192.168.0.5')
 		})
 	})
+	
+	test('failing test', () => {
+		return expect(true).toBe(false)
+	})
 })
