@@ -24,7 +24,7 @@
 	"bugs": {
 		"url": "https://github.com/juliuscc/heos-api/issues"
 	},
-	"homepage": "https://juliuscc.github.io/heos-api/",
+	"homepage": "https://github.com/juliuscc/heos-api",
 	"license": "MIT",
 	"engines": {
 		"node": ">=8.0.0"
