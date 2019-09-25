@@ -39,7 +39,55 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		const mockObject = { heos: { command: 'test/test', result: '', message: '' } }
 		const expectedObject = {
-			heos: { command: { commandGroup: 'test', command: 'test' }, result: '', message: '' }
+			heos: { command: { commandGroup: 'test', command: 'test' }, result: '', message: { unparsed: '' } }
+		}
+
+		messageParser.put(JSON.stringify(mockObject) + '\r\n')
+
+		expect(mockCallback).toBeCalledTimes(1)
+		expect(mockCallback.mock.calls[0][0]).toEqual(expectedObject)
+	})
+
+	test('The parser returns the message as an object and heos.message is parsed correctly', () => {
+		const mockCallback = jest.fn()
+
+		const messageParser: ResponseParser = new ResponseParser(mockCallback)
+
+		const mockObject = { heos: { command: 'test/test', result: '', message: 'pid=0&state=play' } }
+		const expectedObject = {
+			heos: { command: { commandGroup: 'test', command: 'test' }, result: '', message: { unparsed: 'pid=0&state=play', parsed: { pid: 0, state: 'play' } } }
+		}
+
+		messageParser.put(JSON.stringify(mockObject) + '\r\n')
+
+		expect(mockCallback).toBeCalledTimes(1)
+		expect(mockCallback.mock.calls[0][0]).toEqual(expectedObject)
+	})
+
+	test('The parser returns the message as an object and only key=value parts are parsed to parsed message object', () => {
+		const mockCallback = jest.fn()
+
+		const messageParser: ResponseParser = new ResponseParser(mockCallback)
+
+		const mockObject = { heos: { command: 'test/test', result: '', message: 'state=play&signed_out' } }
+		const expectedObject = {
+			heos: { command: { commandGroup: 'test', command: 'test' }, result: '', message: { unparsed: 'state=play&signed_out', parsed: { state: 'play' } } }
+		}
+
+		messageParser.put(JSON.stringify(mockObject) + '\r\n')
+
+		expect(mockCallback).toBeCalledTimes(1)
+		expect(mockCallback.mock.calls[0][0]).toEqual(expectedObject)
+	})
+
+	test('The parser returns the message as an object and only key=value parts having only one = are parsed to parsed message object', () => {
+		const mockCallback = jest.fn()
+
+		const messageParser: ResponseParser = new ResponseParser(mockCallback)
+
+		const mockObject = { heos: { command: 'test/test', result: '', message: 'state=play&pid=0=1' } }
+		const expectedObject = {
+			heos: { command: { commandGroup: 'test', command: 'test' }, result: '', message: { unparsed: 'state=play&pid=0=1', parsed: { state: 'play' } } }
 		}
 
 		messageParser.put(JSON.stringify(mockObject) + '\r\n')
@@ -57,7 +105,7 @@ describe('Heos response messages can be correctly parsed', () => {
 			heos: {
 				command: 'system/heart_beat',
 				result: 'success',
-				message: ''
+				message: 'pid=2'
 			}
 		}
 
@@ -70,7 +118,10 @@ describe('Heos response messages can be correctly parsed', () => {
 					command: expect.any(String)
 				},
 				result: expect.any(String),
-				message: expect.any(String)
+				message: {
+					unparsed: expect.any(String),
+					parsed: expect.any(Object)
+				}
 			}
 		})
 	})
@@ -125,7 +176,8 @@ describe('Heos response messages can be correctly parsed', () => {
 
 		const expectedObject = {
 			heos: {
-				command: { commandGroup: 'event', command: 'sources_changed' }
+				command: { commandGroup: 'event', command: 'sources_changed' },
+				message: {}
 			}
 		}
 
@@ -139,7 +191,9 @@ describe('Heos response messages can be correctly parsed', () => {
 		const expectedObject2 = {
 			heos: {
 				command: { commandGroup: 'event', command: 'sources_changed' },
-				message: 'test_message'
+				message: {
+					unparsed: 'test_message'
+				}
 			}
 		}
 

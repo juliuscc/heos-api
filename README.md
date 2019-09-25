@@ -216,7 +216,9 @@ The responses to commands are objects like this example:
       command: 'heart_beat'
     },
     result: 'success',
-    message: ''
+    message: {
+      unparsed: ''
+    }
   },
   payload: {},
   options: {}
@@ -233,11 +235,16 @@ If you subscribe to _Unsolicited Responses_ (by sending the `system/register_for
       commandGroup: 'event',
       command: 'player_now_playing_changed'
     },
-    message: 'pid=5458'
+    message: {
+      unparsed: 'pid=5458',
+      parsed: {
+        pid: 5458
+      }
+    }
   }
 ```
 
-Sometimes there is no `message`.
+`message` can also be `{}` or have only `unparsed` attribute.
 
 ```ts
 export type HeosResponse = {
@@ -247,7 +254,12 @@ export type HeosResponse = {
             command: string
         }
         result: string
-        message: string
+        message: {
+            unparsed: string,
+            parsed?: {
+                [key: string]: string | number
+            }
+        } | {}
     }
     payload?: object | any[]
     options?: object
@@ -259,7 +271,12 @@ export type HeosEvent = {
             commandGroup: string
             command: string
         }
-        message?: string
+        message: {
+            unparsed: string,
+            parsed?: {
+                [key: string]: string | number
+            }
+        } | {}
     }
 }
 ```

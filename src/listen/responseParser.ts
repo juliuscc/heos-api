@@ -1,7 +1,21 @@
 import { HeosResponse, HeosEvent } from '../types'
 import { parseHeosCommandString } from './heosCommand'
+import { parseHeosMessageString } from './heosResponse'
 
 const messageDelimiter = '\r\n'
+
+function isValidHeosResponseMessage(message: any): boolean {
+	if (
+		!Object.keys(message).length ||
+		(message.hasOwnProperty('unparsed') &&
+			typeof message.unparsed === 'string' &&
+			(!message.hasOwnProperty('parsed') ||
+				(message.hasOwnProperty('parsed') && typeof message.parsed === 'object')))
+	) {
+		return true
+	}
+	return false
+}
 
 function isCorrectResponse(response: any): boolean {
 	return (
@@ -23,7 +37,8 @@ function isHeosResponse(response: any): response is HeosResponse {
 			if (
 				typeof heos.command === 'object' &&
 				typeof heos.result === 'string' &&
-				typeof heos.message === 'string'
+				typeof heos.message === 'object' &&
+				isValidHeosResponseMessage(heos.message)
 			) {
 				if (
 					heos.command.hasOwnProperty('commandGroup') &&
@@ -54,8 +69,8 @@ function isHeosEvent(response: any): response is HeosEvent {
 				typeof heos.command.commandGroup === 'string' &&
 				typeof heos.command.command === 'string'
 			) {
-				if (heos.hasOwnProperty('message')) {
-					return typeof heos.message === 'string'
+				if (heos.hasOwnProperty('message') && typeof heos.message === 'object') {
+					return isValidHeosResponseMessage(heos.message)
 				} else {
 					return true
 				}
@@ -100,6 +115,11 @@ export class ResponseParser {
 				.map(response => {
 					const command = parseHeosCommandString(response.heos.command)
 					response.heos.command = command
+					return response
+				})
+				.map(response => {
+					const message = parseHeosMessageString(response.heos.message)
+					response.heos.message = message
 					return response
 				})
 				.map((response: any) => {

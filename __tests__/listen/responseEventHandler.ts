@@ -13,7 +13,7 @@ describe('Heos responses can be correctly subscribed to', () => {
 				}
 			},
 			result: 'success',
-			message: ''
+			message: {}
 		}
 	}
 
@@ -24,7 +24,7 @@ describe('Heos responses can be correctly subscribed to', () => {
 				command: 'heart_beat'
 			},
 			result: 'success',
-			message: ''
+			message: {}
 		}
 	}
 

@@ -10,10 +10,19 @@ export type HeosCommand = {
 	attributes?: HeosCommandAttribute
 }
 
+export type HeosResponseMessage =
+	| {
+			unparsed: string
+			parsed?: {
+				[key: string]: string | number
+			}
+	  }
+	| {}
+
 export type HeosEvent = {
 	heos: {
 		command: HeosCommand
-		message?: string
+		message: HeosResponseMessage
 	}
 }
 
@@ -21,7 +30,7 @@ export type HeosResponse = {
 	heos: {
 		command: HeosCommand
 		result: string
-		message: string
+		message: HeosResponseMessage
 	}
 	payload?: object | any[]
 	options?: object
