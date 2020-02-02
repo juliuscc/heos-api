@@ -44,13 +44,13 @@ const heos = require('heos-api')
 
 heos.discoverAndConnect().then(connection =>
     connection
-        .onAll(saveToLog)
+        .onAll(console.log)
         .on(
             {
                 commandGroup: 'event',
                 command: 'player_volume_changed'
             },
-            console.log
+            console.info
         )
         .write('system', 'prettify_json_response', { enable: 'on' })
         .write('system', 'heart_beat')
